@@ -1,13 +1,13 @@
 {
     "version": "1.0.0",
-    "summary": "Utility helping with composing model-cmd tuples.",
+    "summary": "Example for working with a modularized UI.",
     "repository": "https://github.com/scameronde/experiment-elm-modularization.git",
     "license": "BSD3",
     "source-directories": [
         ".",
         "../../elm-model/src"
     ],
-    "exposed-modules": ["Model"],
+    "exposed-modules": [""],
     "dependencies": {
         "elm-lang/core": "5.1.1 <= v < 6.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0"
