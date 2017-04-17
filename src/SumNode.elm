@@ -17,6 +17,7 @@ type Msg
 
 init : ( Model, Cmd Msg )
 init =
+    -- start with Leaf1
     let
         ( leaf1Model, leaf1Cmd ) =
             Leaf1.init
@@ -27,6 +28,7 @@ init =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case ( msg, model ) of
+        -- switch to ProductNode as result of a message from Leaf1
         ( Leaf1Msg (Leaf1.Exit aMessage), _ ) ->
             let
                 ( rmodel, rcmd ) =
@@ -34,6 +36,7 @@ update msg model =
             in
                 ( ProductNodeModel rmodel, Cmd.map ProductNodeMsg rcmd )
 
+        -- let Leaf1 handle it's other messages
         ( Leaf1Msg imsg, Leaf1Model imodel ) ->
             let
                 ( rmodel, rcmd ) =
@@ -41,6 +44,7 @@ update msg model =
             in
                 ( Leaf1Model rmodel, Cmd.map Leaf1Msg rcmd )
 
+        -- let ProductNode handle it's own messages
         ( ProductNodeMsg imsg, ProductNodeModel imodel ) ->
             let
                 ( rmodel, rcmd ) =

@@ -18,6 +18,7 @@ type Msg
 
 init : String -> ( Model, Cmd Msg )
 init aMessage =
+    -- compose the initial model
     let
         ( leaf2Model, leaf2Cmd ) =
             Leaf2.init aMessage
@@ -33,6 +34,7 @@ init aMessage =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        -- coordinate a message from Leaf2 to Leaf3
         Leaf2Msg (Leaf2.Send aMessage) ->
             let
                 ( rmodel, rcmd ) =
@@ -40,6 +42,7 @@ update msg model =
             in
                 ( { model | leaf3Model = rmodel }, Cmd.map Leaf3Msg rcmd )
 
+        -- coordinate a message from Leaf3 to Leaf2
         Leaf3Msg (Leaf3.Send aMessage) ->
             let
                 ( rmodel, rcmd ) =
@@ -47,6 +50,7 @@ update msg model =
             in
                 ( { model | leaf2Model = rmodel }, Cmd.map Leaf2Msg rcmd )
 
+        -- let Leaf2 handle it's other messages
         Leaf2Msg imsg ->
             let
                 ( rmodel, rcmd ) =
@@ -54,6 +58,7 @@ update msg model =
             in
                 ( { model | leaf2Model = rmodel }, Cmd.map Leaf2Msg rcmd )
 
+        -- let Leaf3 handle it's other messages
         Leaf3Msg imsg ->
             let
                 ( rmodel, rcmd ) =
