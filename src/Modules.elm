@@ -1,6 +1,6 @@
 module Modules exposing (..)
 
-import SumNode as SumNode
+import SumNodeV2 as SumNode
 import Html exposing (..)
 
 
