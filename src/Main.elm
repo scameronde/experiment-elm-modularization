@@ -2,7 +2,8 @@ module Main exposing (main)
 
 import Navigation exposing (Location)
 import Pages.Home
-import Pages.MessageDemo
+import Pages.MessageDemo1
+import Pages.MessageDemo2
 import Routes exposing (Route)
 import Html exposing (Html)
 
@@ -14,7 +15,8 @@ type SessionModel
 type PageModel
     = BlankPageModel
     | HomePageModel Pages.Home.Model
-    | MessageDemoPageModel Pages.MessageDemo.Model
+    | MessageDemo1PageModel Pages.MessageDemo1.Model
+    | MessageDemo2PageModel Pages.MessageDemo2.Model
 
 
 type alias Model =
@@ -26,7 +28,8 @@ type alias Model =
 type Msg
     = SetRoute (Maybe Route)
     | HomePageMsg Pages.Home.Msg
-    | MessageDemoPageMsg Pages.MessageDemo.Msg
+    | MessageDemo1PageMsg Pages.MessageDemo1.Msg
+    | MessageDemo2PageMsg Pages.MessageDemo2.Msg
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -48,8 +51,11 @@ view model =
         HomePageModel homeModel ->
             Html.map HomePageMsg (Pages.Home.view homeModel)
 
-        MessageDemoPageModel messageDemoModel ->
-            Html.map MessageDemoPageMsg (Pages.MessageDemo.view messageDemoModel)
+        MessageDemo1PageModel messageDemoModel ->
+            Html.map MessageDemo1PageMsg (Pages.MessageDemo1.view messageDemoModel)
+
+        MessageDemo2PageModel messageDemoModel ->
+            Html.map MessageDemo2PageMsg (Pages.MessageDemo2.view messageDemoModel)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -61,8 +67,11 @@ update msg model =
         ( HomePageMsg homeMsg, HomePageModel homeModel ) ->
             updatePage (Pages.Home.update homeMsg homeModel) HomePageModel HomePageMsg model
 
-        ( MessageDemoPageMsg messageDemoMsg, MessageDemoPageModel messageDemoModel ) ->
-            updatePage (Pages.MessageDemo.update messageDemoMsg messageDemoModel) MessageDemoPageModel MessageDemoPageMsg model
+        ( MessageDemo1PageMsg messageDemoMsg, MessageDemo1PageModel messageDemoModel ) ->
+            updatePage (Pages.MessageDemo1.update messageDemoMsg messageDemoModel) MessageDemo1PageModel MessageDemo1PageMsg model
+
+        ( MessageDemo2PageMsg messageDemoMsg, MessageDemo2PageModel messageDemoModel ) ->
+            updatePage (Pages.MessageDemo2.update messageDemoMsg messageDemoModel) MessageDemo2PageModel MessageDemo2PageMsg model
 
         ( _, _ ) ->
             ( model, Cmd.none )
@@ -106,9 +115,16 @@ setRoute maybeRoute model =
             in
                 ( { model | actualPage = HomePageModel homeModel }, Cmd.map HomePageMsg homeCmd )
 
-        Just (Routes.RouteToMessageDemo title) ->
+        Just (Routes.RouteToMessageDemo1 title) ->
             let
                 ( messageDemoModel, messageDemoCmd ) =
-                    Pages.MessageDemo.init title
+                    Pages.MessageDemo1.init title
             in
-                ( { model | actualPage = MessageDemoPageModel messageDemoModel }, Cmd.map MessageDemoPageMsg messageDemoCmd )
+                ( { model | actualPage = MessageDemo1PageModel messageDemoModel }, Cmd.map MessageDemo1PageMsg messageDemoCmd )
+
+        Just (Routes.RouteToMessageDemo2 title) ->
+            let
+                ( messageDemoModel, messageDemoCmd ) =
+                    Pages.MessageDemo2.init title
+            in
+                ( { model | actualPage = MessageDemo2PageModel messageDemoModel }, Cmd.map MessageDemo2PageMsg messageDemoCmd )

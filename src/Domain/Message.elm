@@ -15,8 +15,3 @@ toString (Message message) =
 fromString : String -> Message
 fromString message =
     Message message
-
-
-toHtml : Message -> Html msg
-toHtml (Message message) =
-    Html.text message

@@ -7,7 +7,7 @@ import Routes
 
 
 type alias Record =
-    { titleText : String }
+    { title : Title }
 
 
 type Model
@@ -15,29 +15,34 @@ type Model
 
 
 type Msg
-    = SetTitle Title
-    | UpdateTitle String
+    = GotoMessageDemo1
+    | GotoMessageDemo2
+    | UpdateTitle Title
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model { titleText = "" }, Cmd.none )
+    ( Model { title = Title.Title "" }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg (Model r) =
     case msg of
-        SetTitle title ->
-            ( Model r, Routes.modifyUrl (Routes.RouteToMessageDemo title) )
+        GotoMessageDemo1 ->
+            ( Model r, Routes.modifyUrl (Routes.RouteToMessageDemo1 r.title) )
 
-        UpdateTitle text ->
-            ( Model { r | titleText = text }, Cmd.none )
+        GotoMessageDemo2 ->
+            ( Model r, Routes.modifyUrl (Routes.RouteToMessageDemo2 r.title) )
+
+        UpdateTitle title ->
+            ( Model { r | title = title }, Cmd.none )
 
 
 view : Model -> Html Msg
 view (Model r) =
     Html.div []
         [ Html.text "Home"
-        , Html.input [ Event.onInput UpdateTitle ] []
-        , Html.button [ Event.onClick (SetTitle <| Title.Title r.titleText) ] [ Html.text "Press me" ]
+        , Html.input [ Event.onInput <| UpdateTitle << Title.Title ] []
+        , Html.button [ Event.onClick GotoMessageDemo1 ] [ Html.text "GoTo Demo 1" ]
+        , Html.button [ Event.onClick GotoMessageDemo2 ] [ Html.text "GoTo Demo 2" ]
         ]

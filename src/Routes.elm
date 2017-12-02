@@ -12,14 +12,26 @@ import UrlParser as Url exposing ((</>), Parser, oneOf, parseHash, s, string)
 
 type Route
     = RouteToHome
-    | RouteToMessageDemo Title
+    | RouteToMessageDemo1 Title
+    | RouteToMessageDemo2 Title
+
+
+demo1Path : String
+demo1Path =
+    "demo1"
+
+
+demo2Path : String
+demo2Path =
+    "demo2"
 
 
 routeParser : Parser (Route -> a) a
 routeParser =
     oneOf
         [ Url.map RouteToHome (s "")
-        , Url.map RouteToMessageDemo (s "demo" </> titleUrlParameterParser)
+        , Url.map RouteToMessageDemo1 (s demo1Path </> titleUrlParameterParser)
+        , Url.map RouteToMessageDemo2 (s demo2Path </> titleUrlParameterParser)
         ]
 
 
@@ -40,8 +52,11 @@ routeToString page =
                 RouteToHome ->
                     []
 
-                RouteToMessageDemo title ->
-                    [ "demo", Title.toString title ]
+                RouteToMessageDemo1 title ->
+                    [ demo1Path, Title.toString title ]
+
+                RouteToMessageDemo2 title ->
+                    [ demo2Path, Title.toString title ]
     in
         "#/" ++ String.join "/" pieces
 

@@ -1,4 +1,4 @@
-module Pages.MessageDemo exposing (Model, Msg, init, update, view)
+module Pages.MessageDemo1 exposing (Model, Msg, init, update, view)
 
 import Domain.Title as Title exposing (Title)
 import Domain.Message as Message exposing (Message)
@@ -52,8 +52,7 @@ update msg model =
 view : Model -> Html Msg
 view model =
     Html.div []
-        [ Html.text "Message-Demo"
-        , Title.toHtml model.title
+        [ Html.text <| Title.toString model.title
         , MSR.view model.messageFor1 UpdateMessage1 SendMessage1
         , MSR.view model.messageFor2 UpdateMessage2 SendMessage2
         ]

@@ -15,8 +15,3 @@ toString (Title title) =
 fromString : String -> Title
 fromString str =
     Title str
-
-
-toHtml : Title -> Html msg
-toHtml (Title title) =
-    Html.text title
