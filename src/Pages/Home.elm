@@ -1,34 +1,43 @@
 module Pages.Home exposing (Model, Msg, init, update, view)
 
-import Domain.Title as Title
+import Domain.Title as Title exposing (Title)
 import Html exposing (Html)
 import Html.Events as Event
 import Routes
 
 
+type alias Record =
+    { titleText : String }
+
+
 type Model
-    = Model
+    = Model Record
 
 
 type Msg
-    = TitleSet Title.Title
+    = SetTitle Title
+    | UpdateTitle String
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model, Cmd.none )
+    ( Model { titleText = "" }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
+update msg (Model r) =
     case msg of
-        TitleSet title ->
-            ( model, Routes.modifyUrl (Routes.RouteToMessageDemo title) )
+        SetTitle title ->
+            ( Model r, Routes.modifyUrl (Routes.RouteToMessageDemo title) )
+
+        UpdateTitle text ->
+            ( Model { r | titleText = text }, Cmd.none )
 
 
 view : Model -> Html Msg
-view model =
+view (Model r) =
     Html.div []
         [ Html.text "Home"
-        , Html.button [ Event.onClick (TitleSet (Title.Title "Zur Demo")) ] [ Html.text "Press me" ]
+        , Html.input [ Event.onInput UpdateTitle ] []
+        , Html.button [ Event.onClick (SetTitle <| Title.Title r.titleText) ] [ Html.text "Press me" ]
         ]

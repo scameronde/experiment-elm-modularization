@@ -1,6 +1,6 @@
 module Routes exposing (Route(..), fromLocation, href, modifyUrl)
 
-import Domain.Title as Title
+import Domain.Title as Title exposing (Title)
 import Html exposing (Attribute)
 import Html.Attributes as Attr
 import Navigation exposing (Location)
@@ -12,7 +12,7 @@ import UrlParser as Url exposing ((</>), Parser, oneOf, parseHash, s, string)
 
 type Route
     = RouteToHome
-    | RouteToMessageDemo Title.Title
+    | RouteToMessageDemo Title
 
 
 routeParser : Parser (Route -> a) a
@@ -23,7 +23,7 @@ routeParser =
         ]
 
 
-titleUrlParameterParser : Parser (Title.Title -> a) a
+titleUrlParameterParser : Parser (Title -> a) a
 titleUrlParameterParser =
     Url.custom "USERNAME" (Ok << Title.fromString)
 
