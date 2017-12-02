@@ -6,12 +6,8 @@ import Html.Events as Event
 import Routes
 
 
-type alias Record =
+type alias Model =
     { title : Title }
-
-
-type Model
-    = Model Record
 
 
 type Msg
@@ -22,24 +18,24 @@ type Msg
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model { title = Title.Title "" }, Cmd.none )
+    ( { title = Title.Title "" }, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg (Model r) =
+update msg model =
     case msg of
         GotoMessageDemo1 ->
-            ( Model r, Routes.modifyUrl (Routes.RouteToMessageDemo1 r.title) )
+            ( model, Routes.modifyUrl (Routes.RouteToMessageDemo1 model.title) )
 
         GotoMessageDemo2 ->
-            ( Model r, Routes.modifyUrl (Routes.RouteToMessageDemo2 r.title) )
+            ( model, Routes.modifyUrl (Routes.RouteToMessageDemo2 model.title) )
 
         UpdateTitle title ->
-            ( Model { r | title = title }, Cmd.none )
+            ( { model | title = title }, Cmd.none )
 
 
 view : Model -> Html Msg
-view (Model r) =
+view model =
     Html.div []
         [ Html.text "Home"
         , Html.input [ Event.onInput <| UpdateTitle << Title.Title ] []

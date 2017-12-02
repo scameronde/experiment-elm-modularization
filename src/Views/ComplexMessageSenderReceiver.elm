@@ -5,14 +5,10 @@ import Html exposing (Html)
 import Html.Events as Event
 
 
-type alias Record =
+type alias Model =
     { received : Message
     , forSending : Message
     }
-
-
-type Model
-    = Model Record
 
 
 type Msg
@@ -22,29 +18,29 @@ type Msg
 
 init : ( Model, Cmd Msg )
 init =
-    ( Model (Record (Message.Message "") (Message.Message "")), Cmd.none )
+    ( Model (Message.Message "") (Message.Message ""), Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
-update msg (Model r) =
+update msg model =
     case msg of
         UpdateMessage message ->
-            ( Model { r | forSending = message }, Cmd.none )
+            ( { model | forSending = message }, Cmd.none )
 
         SendMessage message ->
             -- cascade up
-            ( Model r, Cmd.none )
+            ( model, Cmd.none )
 
 
 receiveMessage : Message -> Model -> Model
-receiveMessage message (Model r) =
-    Model { r | received = message }
+receiveMessage message model =
+    { model | received = message }
 
 
 view : Model -> Html Msg
-view (Model r) =
+view model =
     Html.div []
-        [ Html.text <| Message.toString r.received
+        [ Html.text <| Message.toString model.received
         , Html.input [ Event.onInput <| UpdateMessage << Message.Message ] []
-        , Html.button [ Event.onClick <| SendMessage r.forSending ] [ Html.text "Send message" ]
+        , Html.button [ Event.onClick <| SendMessage model.forSending ] [ Html.text "Send message" ]
         ]
