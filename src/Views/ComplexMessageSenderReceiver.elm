@@ -1,4 +1,4 @@
-module Views.ComplexMessageSenderReceiver exposing (Model, Msg(SendMessage, ReceiveMessage), init, update, view)
+module Views.ComplexMessageSenderReceiver exposing (Model, Msg(SendMessage), init, update, view, receiveMessage)
 
 import Domain.Message as Message exposing (Message)
 import Html exposing (Html)
@@ -18,7 +18,6 @@ type Model
 type Msg
     = SendMessage Message
     | UpdateMessage Message
-    | ReceiveMessage Message
 
 
 init : ( Model, Cmd Msg )
@@ -36,8 +35,10 @@ update msg (Model r) =
             -- cascade up
             ( Model r, Cmd.none )
 
-        ReceiveMessage message ->
-            ( Model { r | received = message }, Cmd.none )
+
+receiveMessage : Message -> Model -> Model
+receiveMessage message (Model r) =
+    Model { r | received = message }
 
 
 view : Model -> Html Msg

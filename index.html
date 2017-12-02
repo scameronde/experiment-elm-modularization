@@ -10195,52 +10195,47 @@ var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver
 		var _p1 = _p0;
 		var _p3 = _p1._0;
 		var _p2 = msg;
-		switch (_p2.ctor) {
-			case 'UpdateMessage':
-				return {
-					ctor: '_Tuple2',
-					_0: _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model(
-						_elm_lang$core$Native_Utils.update(
-							_p3,
-							{forSending: _p2._0})),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			case 'SendMessage':
-				return {
-					ctor: '_Tuple2',
-					_0: _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model(_p3),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model(
-						_elm_lang$core$Native_Utils.update(
-							_p3,
-							{received: _p2._0})),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+		if (_p2.ctor === 'UpdateMessage') {
+			return {
+				ctor: '_Tuple2',
+				_0: _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model(
+					_elm_lang$core$Native_Utils.update(
+						_p3,
+						{forSending: _p2._0})),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
+		} else {
+			return {
+				ctor: '_Tuple2',
+				_0: _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model(_p3),
+				_1: _elm_lang$core$Platform_Cmd$none
+			};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$ReceiveMessage = function (a) {
-	return {ctor: 'ReceiveMessage', _0: a};
-};
+var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$receiveMessage = F2(
+	function (message, _p4) {
+		var _p5 = _p4;
+		return _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model(
+			_elm_lang$core$Native_Utils.update(
+				_p5._0,
+				{received: message}));
+	});
 var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$UpdateMessage = function (a) {
 	return {ctor: 'UpdateMessage', _0: a};
 };
 var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$SendMessage = function (a) {
 	return {ctor: 'SendMessage', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$view = function (_p4) {
-	var _p5 = _p4;
-	var _p7 = _p5._0;
+var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$view = function (_p6) {
+	var _p7 = _p6;
+	var _p9 = _p7._0;
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
 			_0: _elm_lang$html$Html$text(
-				_scameronde$experiment_elm_modularization$Domain_Message$toString(_p7.received)),
+				_scameronde$experiment_elm_modularization$Domain_Message$toString(_p9.received)),
 			_1: {
 				ctor: '::',
 				_0: A2(
@@ -10248,9 +10243,9 @@ var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onInput(
-							function (_p6) {
+							function (_p8) {
 								return _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$UpdateMessage(
-									_scameronde$experiment_elm_modularization$Domain_Message$Message(_p6));
+									_scameronde$experiment_elm_modularization$Domain_Message$Message(_p8));
 							}),
 						_1: {ctor: '[]'}
 					},
@@ -10262,7 +10257,7 @@ var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
-								_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$SendMessage(_p7.forSending)),
+								_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$SendMessage(_p9.forSending)),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -10312,23 +10307,19 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 		var _p2 = msg;
 		if (_p2.ctor === 'MsgFor1') {
 			if (_p2._0.ctor === 'SendMessage') {
-				var _p3 = A2(
-					_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update,
-					_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$ReceiveMessage(_p2._0._0),
-					model.modelFor2);
-				var newModel = _p3._0;
-				var newCmd = _p3._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{modelFor2: newModel}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2, newCmd)
+						{
+							modelFor2: A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$receiveMessage, _p2._0._0, model.modelFor2)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			} else {
-				var _p4 = A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update, _p2._0, model.modelFor1);
-				var newModel = _p4._0;
-				var newCmd = _p4._1;
+				var _p3 = A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update, _p2._0, model.modelFor1);
+				var newModel = _p3._0;
+				var newCmd = _p3._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
@@ -10339,23 +10330,19 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 			}
 		} else {
 			if (_p2._0.ctor === 'SendMessage') {
-				var _p5 = A2(
-					_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update,
-					_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$ReceiveMessage(_p2._0._0),
-					model.modelFor1);
-				var newModel = _p5._0;
-				var newCmd = _p5._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{modelFor1: newModel}),
-					_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1, newCmd)
+						{
+							modelFor1: A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$receiveMessage, _p2._0._0, model.modelFor1)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			} else {
-				var _p6 = A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update, _p2._0, model.modelFor2);
-				var newModel = _p6._0;
-				var newCmd = _p6._1;
+				var _p4 = A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update, _p2._0, model.modelFor2);
+				var newModel = _p4._0;
+				var newCmd = _p4._1;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(

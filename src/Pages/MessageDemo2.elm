@@ -1,7 +1,6 @@
 module Pages.MessageDemo2 exposing (Model, Msg, init, update, view)
 
 import Domain.Title as Title exposing (Title)
-import Domain.Message as Message exposing (Message)
 import Views.ComplexMessageSenderReceiver as MSR
 import Html exposing (Html)
 
@@ -34,11 +33,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MsgFor1 (MSR.SendMessage message) ->
-            let
-                ( newModel, newCmd ) =
-                    MSR.update (MSR.ReceiveMessage message) model.modelFor2
-            in
-                ( { model | modelFor2 = newModel }, Cmd.map MsgFor2 newCmd )
+            ( { model | modelFor2 = MSR.receiveMessage message model.modelFor2 }, Cmd.none )
 
         MsgFor1 imsg ->
             let
@@ -48,11 +43,7 @@ update msg model =
                 ( { model | modelFor1 = newModel }, Cmd.map MsgFor1 newCmd )
 
         MsgFor2 (MSR.SendMessage message) ->
-            let
-                ( newModel, newCmd ) =
-                    MSR.update (MSR.ReceiveMessage message) model.modelFor1
-            in
-                ( { model | modelFor1 = newModel }, Cmd.map MsgFor1 newCmd )
+            ( { model | modelFor1 = MSR.receiveMessage message model.modelFor1 }, Cmd.none )
 
         MsgFor2 imsg ->
             let
