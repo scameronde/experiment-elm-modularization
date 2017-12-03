@@ -1,9 +1,20 @@
 module Pages.MessageDemo1 exposing (Model, Msg, init, update, view)
 
+{-|
+This version uses a view as a subcomponent. The view does not have its own definition
+of state or message types. This has all to be provided by the page.
+
+# Advantages
+- simple view without need for complex logic
+
+# Disadvantages
+- a lot of shared internal knowledge between Page and View
+-}
+
 import Routes
 import Domain.Title as Title exposing (Title)
 import Domain.Message as Message exposing (Message)
-import Views.MessageSenderReceiver as MSR
+import Views.MessageSenderReceiverViewOnly as MSR
 import Html exposing (Html)
 import Html.Events as Event
 

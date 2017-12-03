@@ -2,7 +2,7 @@ module Pages.MessageDemo3 exposing (Model, Msg, init, update, view)
 
 import Routes
 import Domain.Title as Title exposing (Title)
-import Views.LessComplexMessageSenderReceiver as MSR
+import Views.MessageSenderReceiverComponentWithReturnValue as MSR
 import Html exposing (Html)
 import Html.Events as Event
 
@@ -24,10 +24,10 @@ init : Title -> ( Model, Cmd Msg )
 init title =
     let
         ( model1, cmd1 ) =
-            MSR.init (\x -> ())
+            MSR.init
 
         ( model2, cmd2 ) =
-            MSR.init (\x -> ())
+            MSR.init
     in
         ( Model title model1 model2, Cmd.batch [ Cmd.map MsgFor1 cmd1, Cmd.map MsgFor2 cmd2 ] )
 

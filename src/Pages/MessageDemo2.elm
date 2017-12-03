@@ -2,7 +2,7 @@ module Pages.MessageDemo2 exposing (Model, Msg, init, update, view)
 
 import Routes
 import Domain.Title as Title exposing (Title)
-import Views.ComplexMessageSenderReceiver as MSR
+import Views.MessageSenderReceiverComponentWithMsgs as MSR
 import Html exposing (Html)
 import Html.Events as Event
 

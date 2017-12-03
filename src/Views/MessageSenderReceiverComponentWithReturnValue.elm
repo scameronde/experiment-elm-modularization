@@ -1,4 +1,4 @@
-module Views.LessComplexMessageSenderReceiver exposing (Model, Msg, init, update, view, receiveMessage)
+module Views.MessageSenderReceiverComponentWithReturnValue exposing (Model, Msg, init, update, view, receiveMessage)
 
 import Domain.Message as Message exposing (Message)
 import Html exposing (Html)
@@ -12,12 +12,12 @@ type alias Model =
 
 
 type Msg
-    = UpdateMessage Message
-    | SendMessage
+    = SendMessage
+    | UpdateMessage Message
 
 
-init : (Message -> ()) -> ( Model, Cmd Msg )
-init receiver =
+init : ( Model, Cmd Msg )
+init =
     ( Model (Message.Message "") (Message.Message ""), Cmd.none )
 
 

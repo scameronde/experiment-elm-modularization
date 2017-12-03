@@ -10090,7 +10090,7 @@ var _scameronde$experiment_elm_modularization$Pages_Home$view = function (model)
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiver$view = F3(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view = F3(
 	function (received, toUpdateMsg, toSendMsg) {
 		return A2(
 			_elm_lang$html$Html$div,
@@ -10212,10 +10212,10 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$view = function
 				_scameronde$experiment_elm_modularization$Domain_Title$toString(model.title)),
 			_1: {
 				ctor: '::',
-				_0: A3(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiver$view, model.messageFor1, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage1, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage1),
+				_0: A3(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view, model.messageFor1, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage1, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage1),
 				_1: {
 					ctor: '::',
-					_0: A3(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiver$view, model.messageFor2, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage2, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage2),
+					_0: A3(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view, model.messageFor2, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage2, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage2),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -10236,13 +10236,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$view = function
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$receiveMessage = F2(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$receiveMessage = F2(
 	function (message, model) {
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{received: message});
 	});
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update = F2(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		if (_p0.ctor === 'UpdateMessage') {
@@ -10257,25 +10257,25 @@ var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver
 			return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model = F2(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$Model = F2(
 	function (a, b) {
 		return {received: a, forSending: b};
 	});
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$init = {
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$init = {
 	ctor: '_Tuple2',
 	_0: A2(
-		_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$Model,
+		_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$Model,
 		_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
 		_scameronde$experiment_elm_modularization$Domain_Message$Message('')),
 	_1: _elm_lang$core$Platform_Cmd$none
 };
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$UpdateMessage = function (a) {
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$UpdateMessage = function (a) {
 	return {ctor: 'UpdateMessage', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$SendMessage = function (a) {
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$SendMessage = function (a) {
 	return {ctor: 'SendMessage', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$view = function (model) {
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10291,7 +10291,7 @@ var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onInput(
 							function (_p1) {
-								return _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$UpdateMessage(
+								return _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$UpdateMessage(
 									_scameronde$experiment_elm_modularization$Domain_Message$Message(_p1));
 							}),
 						_1: {ctor: '[]'}
@@ -10304,7 +10304,7 @@ var _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver
 						{
 							ctor: '::',
 							_0: _elm_lang$html$Html_Events$onClick(
-								_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$SendMessage(model.forSending)),
+								_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$SendMessage(model.forSending)),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -10329,10 +10329,10 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1 = funct
 	return {ctor: 'MsgFor1', _0: a};
 };
 var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$init = function (title) {
-	var _p0 = _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$init;
+	var _p0 = _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$init;
 	var model2 = _p0._0;
 	var cmd2 = _p0._1;
-	var _p1 = _scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$init;
+	var _p1 = _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$init;
 	var model1 = _p1._0;
 	var cmd1 = _p1._1;
 	return {
@@ -10361,12 +10361,12 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								modelFor2: A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$receiveMessage, _p2._0._0, model.modelFor2)
+								modelFor2: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$receiveMessage, _p2._0._0, model.modelFor2)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var _p3 = A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update, _p2._0, model.modelFor1);
+					var _p3 = A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$update, _p2._0, model.modelFor1);
 					var newModel = _p3._0;
 					var newCmd = _p3._1;
 					return {
@@ -10384,12 +10384,12 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								modelFor1: A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$receiveMessage, _p2._0._0, model.modelFor1)
+								modelFor1: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$receiveMessage, _p2._0._0, model.modelFor1)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				} else {
-					var _p4 = A2(_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$update, _p2._0, model.modelFor2);
+					var _p4 = A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$update, _p2._0, model.modelFor2);
 					var newModel = _p4._0;
 					var newCmd = _p4._1;
 					return {
@@ -10421,13 +10421,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$view = function
 				_0: A2(
 					_elm_lang$html$Html$map,
 					_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1,
-					_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$view(model.modelFor1)),
+					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$view(model.modelFor1)),
 				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$map,
 						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2,
-						_scameronde$experiment_elm_modularization$Views_ComplexMessageSenderReceiver$view(model.modelFor2)),
+						_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$view(model.modelFor2)),
 					_1: {
 						ctor: '::',
 						_0: A2(
@@ -10448,13 +10448,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$view = function
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$receiveMessage = F2(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$receiveMessage = F2(
 	function (message, model) {
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{received: message});
 	});
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$update = F2(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		if (_p0.ctor === 'UpdateMessage') {
@@ -10477,25 +10477,23 @@ var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderRece
 			};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$Model = F2(
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$Model = F2(
 	function (a, b) {
 		return {received: a, forSending: b};
 	});
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$init = function (receiver) {
-	return {
-		ctor: '_Tuple2',
-		_0: A2(
-			_scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$Model,
-			_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
-			_scameronde$experiment_elm_modularization$Domain_Message$Message('')),
-		_1: _elm_lang$core$Platform_Cmd$none
-	};
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init = {
+	ctor: '_Tuple2',
+	_0: A2(
+		_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$Model,
+		_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
+		_scameronde$experiment_elm_modularization$Domain_Message$Message('')),
+	_1: _elm_lang$core$Platform_Cmd$none
 };
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$SendMessage = {ctor: 'SendMessage'};
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$UpdateMessage = function (a) {
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$UpdateMessage = function (a) {
 	return {ctor: 'UpdateMessage', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$view = function (model) {
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$SendMessage = {ctor: 'SendMessage'};
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10511,7 +10509,7 @@ var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderRece
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onInput(
 							function (_p1) {
-								return _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$UpdateMessage(
+								return _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$UpdateMessage(
 									_scameronde$experiment_elm_modularization$Domain_Message$Message(_p1));
 							}),
 						_1: {ctor: '[]'}
@@ -10523,7 +10521,7 @@ var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderRece
 						_elm_lang$html$Html$button,
 						{
 							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$SendMessage),
+							_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$SendMessage),
 							_1: {ctor: '[]'}
 						},
 						{
@@ -10538,7 +10536,7 @@ var _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderRece
 };
 var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessage = F6(
 	function (setter, cmdMapperThis, model, iMsgThis, iModelThis, iModelOther) {
-		var _p0 = A2(_scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$update, iMsgThis, iModelThis);
+		var _p0 = A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$update, iMsgThis, iModelThis);
 		var maybeMessage = _p0._0;
 		var newModelThis = _p0._1._0;
 		var newCmdThis = _p0._1._1;
@@ -10547,7 +10545,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessa
 			if (_p1.ctor === 'Nothing') {
 				return iModelOther;
 			} else {
-				return A2(_scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$receiveMessage, _p1._0, iModelOther);
+				return A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$receiveMessage, _p1._0, iModelOther);
 			}
 		}();
 		return {
@@ -10577,16 +10575,10 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor1 = funct
 	return {ctor: 'MsgFor1', _0: a};
 };
 var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$init = function (title) {
-	var _p2 = _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$init(
-		function (x) {
-			return {ctor: '_Tuple0'};
-		});
+	var _p2 = _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init;
 	var model2 = _p2._0;
 	var cmd2 = _p2._1;
-	var _p3 = _scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$init(
-		function (x) {
-			return {ctor: '_Tuple0'};
-		});
+	var _p3 = _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init;
 	var model1 = _p3._0;
 	var cmd1 = _p3._1;
 	return {
@@ -10642,13 +10634,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$view = function
 				_0: A2(
 					_elm_lang$html$Html$map,
 					_scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor1,
-					_scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$view(model.modelFor1)),
+					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$view(model.modelFor1)),
 				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$map,
 						_scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor2,
-						_scameronde$experiment_elm_modularization$Views_LessComplexMessageSenderReceiver$view(model.modelFor2)),
+						_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$view(model.modelFor2)),
 					_1: {
 						ctor: '::',
 						_0: A2(

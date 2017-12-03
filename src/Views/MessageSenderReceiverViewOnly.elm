@@ -1,4 +1,4 @@
-module Views.MessageSenderReceiver exposing (view)
+module Views.MessageSenderReceiverViewOnly exposing (view)
 
 import Domain.Message as Message exposing (Message)
 import Html exposing (Html)

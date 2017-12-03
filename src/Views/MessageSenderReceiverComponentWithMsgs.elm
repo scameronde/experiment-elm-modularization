@@ -1,4 +1,4 @@
-module Views.ComplexMessageSenderReceiver exposing (Model, Msg(SendMessage), init, update, view, receiveMessage)
+module Views.MessageSenderReceiverComponentWithMsgs exposing (Model, Msg(SendMessage), init, update, view, receiveMessage)
 
 import Domain.Message as Message exposing (Message)
 import Html exposing (Html)
