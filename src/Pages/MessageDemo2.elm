@@ -1,8 +1,10 @@
 module Pages.MessageDemo2 exposing (Model, Msg, init, update, view)
 
+import Routes
 import Domain.Title as Title exposing (Title)
 import Views.ComplexMessageSenderReceiver as MSR
 import Html exposing (Html)
+import Html.Events as Event
 
 
 type alias Model =
@@ -15,6 +17,7 @@ type alias Model =
 type Msg
     = MsgFor1 MSR.Msg
     | MsgFor2 MSR.Msg
+    | Back
 
 
 init : Title -> ( Model, Cmd Msg )
@@ -52,6 +55,9 @@ update msg model =
             in
                 ( { model | modelFor2 = newModel }, Cmd.map MsgFor2 newCmd )
 
+        Back ->
+            ( model, Routes.modifyUrl (Routes.RouteToHome) )
+
 
 view : Model -> Html Msg
 view model =
@@ -59,4 +65,5 @@ view model =
         [ Html.text <| Title.toString model.title
         , Html.map MsgFor1 (MSR.view model.modelFor1)
         , Html.map MsgFor2 (MSR.view model.modelFor2)
+        , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]

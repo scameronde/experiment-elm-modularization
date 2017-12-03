@@ -4,6 +4,7 @@ import Navigation exposing (Location)
 import Pages.Home
 import Pages.MessageDemo1
 import Pages.MessageDemo2
+import Pages.MessageDemo3
 import Routes exposing (Route)
 import Html exposing (Html)
 
@@ -17,6 +18,7 @@ type PageModel
     | HomePageModel Pages.Home.Model
     | MessageDemo1PageModel Pages.MessageDemo1.Model
     | MessageDemo2PageModel Pages.MessageDemo2.Model
+    | MessageDemo3PageModel Pages.MessageDemo3.Model
 
 
 type alias Model =
@@ -30,6 +32,7 @@ type Msg
     | HomePageMsg Pages.Home.Msg
     | MessageDemo1PageMsg Pages.MessageDemo1.Msg
     | MessageDemo2PageMsg Pages.MessageDemo2.Msg
+    | MessageDemo3PageMsg Pages.MessageDemo3.Msg
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -57,6 +60,9 @@ view model =
         MessageDemo2PageModel messageDemoModel ->
             Html.map MessageDemo2PageMsg (Pages.MessageDemo2.view messageDemoModel)
 
+        MessageDemo3PageModel messageDemoModel ->
+            Html.map MessageDemo3PageMsg (Pages.MessageDemo3.view messageDemoModel)
+
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
@@ -73,7 +79,23 @@ update msg model =
         ( MessageDemo2PageMsg messageDemoMsg, MessageDemo2PageModel messageDemoModel ) ->
             updatePage (Pages.MessageDemo2.update messageDemoMsg messageDemoModel) MessageDemo2PageModel MessageDemo2PageMsg model
 
-        ( _, _ ) ->
+        ( MessageDemo3PageMsg messageDemoMsg, MessageDemo3PageModel messageDemoModel ) ->
+            updatePage (Pages.MessageDemo3.update messageDemoMsg messageDemoModel) MessageDemo3PageModel MessageDemo3PageMsg model
+
+        ( HomePageMsg _, _ ) ->
+            -- should not happen
+            ( model, Cmd.none )
+
+        ( MessageDemo1PageMsg _, _ ) ->
+            -- should not happen
+            ( model, Cmd.none )
+
+        ( MessageDemo2PageMsg _, _ ) ->
+            -- should not happen
+            ( model, Cmd.none )
+
+        ( MessageDemo3PageMsg _, _ ) ->
+            -- should not happen
             ( model, Cmd.none )
 
 
@@ -128,3 +150,10 @@ setRoute maybeRoute model =
                     Pages.MessageDemo2.init title
             in
                 ( { model | actualPage = MessageDemo2PageModel messageDemoModel }, Cmd.map MessageDemo2PageMsg messageDemoCmd )
+
+        Just (Routes.RouteToMessageDemo3 title) ->
+            let
+                ( messageDemoModel, messageDemoCmd ) =
+                    Pages.MessageDemo3.init title
+            in
+                ( { model | actualPage = MessageDemo3PageModel messageDemoModel }, Cmd.map MessageDemo3PageMsg messageDemoCmd )

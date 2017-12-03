@@ -13,6 +13,7 @@ type alias Model =
 type Msg
     = GotoMessageDemo1
     | GotoMessageDemo2
+    | GotoMessageDemo3
     | UpdateTitle Title
 
 
@@ -30,6 +31,9 @@ update msg model =
         GotoMessageDemo2 ->
             ( model, Routes.modifyUrl (Routes.RouteToMessageDemo2 model.title) )
 
+        GotoMessageDemo3 ->
+            ( model, Routes.modifyUrl (Routes.RouteToMessageDemo3 model.title) )
+
         UpdateTitle title ->
             ( { model | title = title }, Cmd.none )
 
@@ -41,4 +45,5 @@ view model =
         , Html.input [ Event.onInput <| UpdateTitle << Title.Title ] []
         , Html.button [ Event.onClick GotoMessageDemo1 ] [ Html.text "GoTo Demo 1" ]
         , Html.button [ Event.onClick GotoMessageDemo2 ] [ Html.text "GoTo Demo 2" ]
+        , Html.button [ Event.onClick GotoMessageDemo3 ] [ Html.text "GoTo Demo 3" ]
         ]
