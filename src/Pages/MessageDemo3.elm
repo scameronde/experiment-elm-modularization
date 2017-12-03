@@ -1,5 +1,17 @@
 module Pages.MessageDemo3 exposing (Model, Msg, init, update, view)
 
+{-|
+This version uses a component with its own update-view loop. The component communicates data to its
+parent with the result of its update function.
+
+# Advantages
+- more encapsulation
+- simple value passing
+
+# Disadvantages
+- none
+-}
+
 import Routes
 import Domain.Title as Title exposing (Title)
 import Views.MessageSenderReceiverComponentWithReturnValue as MSR
@@ -22,24 +34,17 @@ type Msg
 
 init : Title -> ( Model, Cmd Msg )
 init title =
-    let
-        ( model1, cmd1 ) =
-            MSR.init
-
-        ( model2, cmd2 ) =
-            MSR.init
-    in
-        ( Model title model1 model2, Cmd.batch [ Cmd.map MsgFor1 cmd1, Cmd.map MsgFor2 cmd2 ] )
+    ( Model title MSR.init MSR.init, Cmd.none )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MsgFor1 imsg ->
-            updateWithMessageFor1 model imsg model.modelFor1 model.modelFor2
+            ( updateWithMessageFor1 model imsg model.modelFor1 model.modelFor2, Cmd.none )
 
         MsgFor2 imsg ->
-            updateWithMessageFor2 model imsg model.modelFor2 model.modelFor1
+            ( updateWithMessageFor2 model imsg model.modelFor2 model.modelFor1, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
@@ -49,14 +54,10 @@ type alias ModelSetter =
     Model -> MSR.Model -> MSR.Model -> Model
 
 
-type alias CmdMapper =
-    MSR.Msg -> Msg
-
-
-updateWithMessage : ModelSetter -> CmdMapper -> Model -> MSR.Msg -> MSR.Model -> MSR.Model -> ( Model, Cmd Msg )
-updateWithMessage setter cmdMapperThis model iMsgThis iModelThis iModelOther =
+updateWithMessage : ModelSetter -> Model -> MSR.Msg -> MSR.Model -> MSR.Model -> Model
+updateWithMessage setter model iMsgThis iModelThis iModelOther =
     let
-        ( maybeMessage, ( newModelThis, newCmdThis ) ) =
+        ( maybeMessage, newModelThis ) =
             MSR.update iMsgThis iModelThis
 
         newModelOther =
@@ -65,19 +66,19 @@ updateWithMessage setter cmdMapperThis model iMsgThis iModelThis iModelOther =
                     iModelOther
 
                 Just message ->
-                    MSR.receiveMessage message iModelOther
+                    MSR.updateReceived message iModelOther
     in
-        ( setter model newModelThis newModelOther, Cmd.map cmdMapperThis newCmdThis )
+        setter model newModelThis newModelOther
 
 
-updateWithMessageFor1 : Model -> MSR.Msg -> MSR.Model -> MSR.Model -> ( Model, Cmd Msg )
+updateWithMessageFor1 : Model -> MSR.Msg -> MSR.Model -> MSR.Model -> Model
 updateWithMessageFor1 =
-    updateWithMessage (\model this other -> { model | modelFor1 = this, modelFor2 = other }) MsgFor1
+    updateWithMessage (\model this other -> { model | modelFor1 = this, modelFor2 = other })
 
 
-updateWithMessageFor2 : Model -> MSR.Msg -> MSR.Model -> MSR.Model -> ( Model, Cmd Msg )
+updateWithMessageFor2 : Model -> MSR.Msg -> MSR.Model -> MSR.Model -> Model
 updateWithMessageFor2 =
-    updateWithMessage (\model this other -> { model | modelFor2 = this, modelFor1 = other }) MsgFor2
+    updateWithMessage (\model this other -> { model | modelFor2 = this, modelFor1 = other })
 
 
 view : Model -> Html Msg

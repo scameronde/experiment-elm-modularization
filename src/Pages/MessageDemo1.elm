@@ -19,30 +19,35 @@ import Html exposing (Html)
 import Html.Events as Event
 
 
-type alias Model =
-    { title : Title
-    , messageFor1 : Message
-    , messageFor2 : Message
-    , messageFrom1 : Message
-    , messageFrom2 : Message
+type alias MSRModel =
+    { received : Message
+    , forSending : Message
     }
 
 
+type alias Model =
+    { title : Title
+    , modelFor1 : MSRModel
+    , modelFor2 : MSRModel
+    }
+
+
+type MSRMsg
+    = SendMessage
+    | UpdateMessage Message
+
+
 type Msg
-    = UpdateMessage1 Message
-    | UpdateMessage2 Message
-    | SendMessage1
-    | SendMessage2
+    = MsgFor1 MSRMsg
+    | MsgFor2 MSRMsg
     | Back
 
 
 init : Title -> ( Model, Cmd Msg )
 init title =
     ( Model title
-        (Message.Message "")
-        (Message.Message "")
-        (Message.Message "")
-        (Message.Message "")
+        (MSRModel (Message.Message "") (Message.Message ""))
+        (MSRModel (Message.Message "") (Message.Message ""))
     , Cmd.none
     )
 
@@ -50,27 +55,49 @@ init title =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdateMessage1 msg ->
-            ( { model | messageFrom1 = msg }, Cmd.none )
+        MsgFor1 (UpdateMessage message) ->
+            updateForUpdate (\nm -> { model | modelFor1 = nm }) model.modelFor1 message
 
-        UpdateMessage2 msg ->
-            ( { model | messageFrom2 = msg }, Cmd.none )
+        MsgFor2 (UpdateMessage message) ->
+            updateForUpdate (\nm -> { model | modelFor2 = nm }) model.modelFor2 message
 
-        SendMessage1 ->
-            ( { model | messageFor2 = model.messageFrom1 }, Cmd.none )
+        MsgFor1 SendMessage ->
+            updateForSend (\nm -> { model | modelFor2 = nm }) model.modelFor2 model.modelFor1.forSending
 
-        SendMessage2 ->
-            ( { model | messageFor1 = model.messageFrom2 }, Cmd.none )
+        MsgFor2 SendMessage ->
+            updateForSend (\nm -> { model | modelFor1 = nm }) model.modelFor1 model.modelFor2.forSending
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
+
+
+type alias SetterForUpdate =
+    MSRModel -> Model
+
+
+updateForUpdate : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
+updateForUpdate setter imodel message =
+    let
+        newIModel =
+            { imodel | forSending = message }
+    in
+        ( setter newIModel, Cmd.none )
+
+
+updateForSend : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
+updateForSend setter imodelother message =
+    let
+        newmodelother =
+            { imodelother | received = message }
+    in
+        ( setter newmodelother, Cmd.none )
 
 
 view : Model -> Html Msg
 view model =
     Html.div []
         [ Html.text <| Title.toString model.title
-        , MSR.view model.messageFor1 UpdateMessage1 SendMessage1
-        , MSR.view model.messageFor2 UpdateMessage2 SendMessage2
+        , MSR.view model.modelFor1.received (UpdateMessage >> MsgFor1) (SendMessage |> MsgFor1)
+        , MSR.view model.modelFor2.received (UpdateMessage >> MsgFor2) (SendMessage |> MsgFor2)
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]

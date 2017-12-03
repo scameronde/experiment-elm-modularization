@@ -9,6 +9,6 @@ view : Message -> (Message -> msgT) -> msgT -> Html msgT
 view received toUpdateMsg toSendMsg =
     Html.div []
         [ Html.text <| Message.toString received
-        , Html.input [ Event.onInput <| toUpdateMsg << Message.Message ] []
-        , Html.button [ Event.onClick toSendMsg ] [ Html.text "Send message" ]
+        , Html.input [ Event.onInput <| Message.Message >> toUpdateMsg ] []
+        , Html.button [ Event.onClick <| toSendMsg ] [ Html.text "Send message" ]
         ]

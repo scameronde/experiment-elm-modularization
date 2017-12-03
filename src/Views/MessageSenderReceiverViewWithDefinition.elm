@@ -1,4 +1,4 @@
-module Views.MessageSenderReceiverComponentWithReturnValue exposing (Model, Msg, init, update, view, updateReceived)
+module Views.MessageSenderReceiverViewWithDefinition exposing (Model, Msg(..), init, view, updateMessage, updateReceived)
 
 import Domain.Message as Message exposing (Message)
 import Html exposing (Html)
@@ -12,7 +12,7 @@ type alias Model =
 
 
 type Msg
-    = SendMessage
+    = SendMessage Message
     | UpdateMessage Message
 
 
@@ -21,18 +21,13 @@ init =
     Model (Message.Message "") (Message.Message "")
 
 
-update : Msg -> Model -> ( Maybe Message, Model )
-update msg model =
-    case msg of
-        UpdateMessage message ->
-            ( Nothing, { model | forSending = message } )
-
-        SendMessage ->
-            ( Just model.forSending, model )
+updateMessage : Model -> Message -> Model
+updateMessage model message =
+    { model | forSending = message }
 
 
-updateReceived : Message -> Model -> Model
-updateReceived message model =
+updateReceived : Model -> Message -> Model
+updateReceived model message =
     { model | received = message }
 
 
@@ -41,5 +36,5 @@ view model =
     Html.div []
         [ Html.text <| Message.toString model.received
         , Html.input [ Event.onInput <| Message.Message >> UpdateMessage ] []
-        , Html.button [ Event.onClick <| SendMessage ] [ Html.text "Send message" ]
+        , Html.button [ Event.onClick <| SendMessage model.forSending ] [ Html.text "Send message" ]
         ]

@@ -14,6 +14,7 @@ type Msg
     = GotoMessageDemo1
     | GotoMessageDemo2
     | GotoMessageDemo3
+    | GotoMessageDemo4
     | UpdateTitle Title
 
 
@@ -34,6 +35,9 @@ update msg model =
         GotoMessageDemo3 ->
             ( model, Routes.modifyUrl (Routes.RouteToMessageDemo3 model.title) )
 
+        GotoMessageDemo4 ->
+            ( model, Routes.modifyUrl (Routes.RouteToMessageDemo4 model.title) )
+
         UpdateTitle title ->
             ( { model | title = title }, Cmd.none )
 
@@ -46,4 +50,5 @@ view model =
         , Html.button [ Event.onClick GotoMessageDemo1 ] [ Html.text "GoTo Demo 1" ]
         , Html.button [ Event.onClick GotoMessageDemo2 ] [ Html.text "GoTo Demo 2" ]
         , Html.button [ Event.onClick GotoMessageDemo3 ] [ Html.text "GoTo Demo 3" ]
+        , Html.button [ Event.onClick GotoMessageDemo4 ] [ Html.text "GoTo Demo 4" ]
         ]

@@ -15,6 +15,7 @@ type Route
     | RouteToMessageDemo1 Title
     | RouteToMessageDemo2 Title
     | RouteToMessageDemo3 Title
+    | RouteToMessageDemo4 Title
 
 
 homePath : String
@@ -37,6 +38,11 @@ demo3Path =
     "demo3"
 
 
+demo4Path : String
+demo4Path =
+    "demo4"
+
+
 routeParser : Parser (Route -> a) a
 routeParser =
     oneOf
@@ -44,6 +50,7 @@ routeParser =
         , Url.map RouteToMessageDemo1 (s demo1Path </> titleUrlParameterParser)
         , Url.map RouteToMessageDemo2 (s demo2Path </> titleUrlParameterParser)
         , Url.map RouteToMessageDemo3 (s demo3Path </> titleUrlParameterParser)
+        , Url.map RouteToMessageDemo4 (s demo4Path </> titleUrlParameterParser)
         ]
 
 
@@ -72,6 +79,9 @@ routeToString page =
 
                 RouteToMessageDemo3 title ->
                     [ demo3Path, Title.toString title ]
+
+                RouteToMessageDemo4 title ->
+                    [ demo4Path, Title.toString title ]
     in
         "#/" ++ String.join "/" pieces
 
