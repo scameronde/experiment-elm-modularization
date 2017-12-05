@@ -1,66 +1,105 @@
 module Pages.MessageDemo2 exposing (Model, Msg, init, update, view)
 
 {-|
-This version is a hybrid between using only a simple view and a full fledged component. The
-view defines its Model and Msg, but shares all its internals with the Page.
+This version uses a view as a subcomponent. The view does not have its own definition
+of state or message types. This has all to be provided by the page.
+This time, the page defines a submodel and submessages for the view to be a bit more structured.
 
 # Advantages
-- still simple view without need for complex logic
-- the definition of Model and Msg is where its usage is defined
+- simple view without need for complex logic
 
 # Disadvantages
-- still a lot of shared internal knowledge between Page and View
+- a lot of shared internal knowledge between Page and View
+- increase of complexity in update function
 -}
 
 import Routes
 import Domain.Title as Title exposing (Title)
-import Views.MessageSenderReceiverViewWithDefinition as MSR
+import Domain.Message as Message exposing (Message)
+import Views.MessageSenderReceiverViewOnly as MSR
 import Html exposing (Html)
 import Html.Events as Event
 
 
-type alias Model =
-    { title : Title
-    , modelFor1 : MSR.Model
-    , modelFor2 : MSR.Model
+type alias MSRModel =
+    { received : Message
+    , forSending : Message
     }
 
 
+type alias Model =
+    { title : Title
+    , modelFor1 : MSRModel
+    , modelFor2 : MSRModel
+    }
+
+
+type MSRMsg
+    = SendMessage
+    | UpdateMessage Message
+
+
 type Msg
-    = MsgFor1 MSR.Msg
-    | MsgFor2 MSR.Msg
+    = MsgFor1 MSRMsg
+    | MsgFor2 MSRMsg
     | Back
 
 
 init : Title -> ( Model, Cmd Msg )
 init title =
-    ( Model title MSR.init MSR.init, Cmd.none )
+    ( Model title
+        (MSRModel (Message.Message "") (Message.Message ""))
+        (MSRModel (Message.Message "") (Message.Message ""))
+    , Cmd.none
+    )
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        MsgFor1 (MSR.UpdateMessage message) ->
-            ( { model | modelFor1 = MSR.updateMessage model.modelFor1 message }, Cmd.none )
+        MsgFor1 (UpdateMessage message) ->
+            updateForUpdate (\nm -> { model | modelFor1 = nm }) model.modelFor1 message
 
-        MsgFor2 (MSR.UpdateMessage message) ->
-            ( { model | modelFor2 = MSR.updateMessage model.modelFor2 message }, Cmd.none )
+        MsgFor2 (UpdateMessage message) ->
+            updateForUpdate (\nm -> { model | modelFor2 = nm }) model.modelFor2 message
 
-        MsgFor1 (MSR.SendMessage message) ->
-            ( { model | modelFor2 = MSR.updateReceived model.modelFor2 message }, Cmd.none )
+        MsgFor1 SendMessage ->
+            updateForSend (\nm -> { model | modelFor2 = nm }) model.modelFor2 model.modelFor1.forSending
 
-        MsgFor2 (MSR.SendMessage message) ->
-            ( { model | modelFor1 = MSR.updateReceived model.modelFor1 message }, Cmd.none )
+        MsgFor2 SendMessage ->
+            updateForSend (\nm -> { model | modelFor1 = nm }) model.modelFor1 model.modelFor2.forSending
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
+
+
+type alias SetterForUpdate =
+    MSRModel -> Model
+
+
+updateForUpdate : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
+updateForUpdate setter imodel message =
+    let
+        newIModel =
+            { imodel | forSending = message }
+    in
+        ( setter newIModel, Cmd.none )
+
+
+updateForSend : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
+updateForSend setter imodelother message =
+    let
+        newmodelother =
+            { imodelother | received = message }
+    in
+        ( setter newmodelother, Cmd.none )
 
 
 view : Model -> Html Msg
 view model =
     Html.div []
         [ Html.text <| Title.toString model.title
-        , Html.map MsgFor1 <| MSR.view model.modelFor1
-        , Html.map MsgFor2 <| MSR.view model.modelFor2
+        , MSR.view model.modelFor1.received (UpdateMessage >> MsgFor1) (SendMessage |> MsgFor1)
+        , MSR.view model.modelFor2.received (UpdateMessage >> MsgFor2) (SendMessage |> MsgFor2)
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]

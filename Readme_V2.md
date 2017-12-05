@@ -257,3 +257,12 @@ And that is basically it.
 
 ## Pages and Views
 
+There are different ways a page can be composed of smaller elements. I want to explore some methods here.
+
+- Variant 1: using a view function and a simple model
+- Variant 2: using a view function and a nested model defined by the page
+- Variant 3: using a view function and a nested model defined by the view
+- Variant 4: using a component with a return value (using update)
+- Variant 5: using a component with a return value passed by a message
+
+So far variant 4 is my favorit for anything more complex than a button of a textfield.

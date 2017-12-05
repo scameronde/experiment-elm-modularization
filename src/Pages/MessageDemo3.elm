@@ -1,21 +1,20 @@
 module Pages.MessageDemo3 exposing (Model, Msg, init, update, view)
 
 {-|
-This version uses a component with its own update-view loop. The component communicates data to its
-parent with the result of its update function.
+This version is a hybrid between using only a simple view and a full fledged component. The
+view defines its Model and Msg, but shares all its internals with the Page.
 
 # Advantages
-- more encapsulation
-- simple value passing
+- still simple view without need for complex logic
+- the definition of Model and Msg is where its usage is defined
 
 # Disadvantages
-- none
+- still a lot of shared internal knowledge between Page and View
 -}
 
 import Routes
-import Focus exposing (Focus, set, get)
 import Domain.Title as Title exposing (Title)
-import Views.MessageSenderReceiverComponentWithReturnValue as MSR
+import Views.MessageSenderReceiverViewWithDefinition as MSR
 import Html exposing (Html)
 import Html.Events as Event
 
@@ -41,45 +40,20 @@ init title =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        MsgFor1 imsg ->
-            ( updateModel model1Focus model2Focus imsg model, Cmd.none )
+        MsgFor1 (MSR.UpdateMessage message) ->
+            ( { model | modelFor1 = MSR.updateMessage model.modelFor1 message }, Cmd.none )
 
-        MsgFor2 imsg ->
-            ( updateModel model2Focus model1Focus imsg model, Cmd.none )
+        MsgFor2 (MSR.UpdateMessage message) ->
+            ( { model | modelFor2 = MSR.updateMessage model.modelFor2 message }, Cmd.none )
+
+        MsgFor1 (MSR.SendMessage message) ->
+            ( { model | modelFor2 = MSR.updateReceived model.modelFor2 message }, Cmd.none )
+
+        MsgFor2 (MSR.SendMessage message) ->
+            ( { model | modelFor1 = MSR.updateReceived model.modelFor1 message }, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
-
-
-type alias ModelSetter =
-    Model -> MSR.Model -> MSR.Model -> Model
-
-
-updateModel : Focus Model MSR.Model -> Focus Model MSR.Model -> MSR.Msg -> Model -> Model
-updateModel sender receiver imsg model =
-    let
-        ( maybeMessage, newSender ) =
-            MSR.update imsg (get sender model)
-
-        newReceiver =
-            case maybeMessage of
-                Nothing ->
-                    get receiver model
-
-                Just message ->
-                    MSR.updateReceived message (get receiver model)
-    in
-        set sender newSender model |> set receiver newReceiver
-
-
-model1Focus : Focus { b | modelFor1 : a } a
-model1Focus =
-    Focus.create .modelFor1 (\f r -> { r | modelFor1 = f r.modelFor1 })
-
-
-model2Focus : Focus { b | modelFor2 : a } a
-model2Focus =
-    Focus.create .modelFor2 (\f r -> { r | modelFor2 = f r.modelFor2 })
 
 
 view : Model -> Html Msg

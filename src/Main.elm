@@ -6,6 +6,7 @@ import Pages.MessageDemo1
 import Pages.MessageDemo2
 import Pages.MessageDemo3
 import Pages.MessageDemo4
+import Pages.MessageDemo5
 import Routes exposing (Route)
 import Html exposing (Html)
 
@@ -21,6 +22,7 @@ type PageModel
     | MessageDemo2PageModel Pages.MessageDemo2.Model
     | MessageDemo3PageModel Pages.MessageDemo3.Model
     | MessageDemo4PageModel Pages.MessageDemo4.Model
+    | MessageDemo5PageModel Pages.MessageDemo5.Model
 
 
 type alias Model =
@@ -36,6 +38,7 @@ type Msg
     | MessageDemo2PageMsg Pages.MessageDemo2.Msg
     | MessageDemo3PageMsg Pages.MessageDemo3.Msg
     | MessageDemo4PageMsg Pages.MessageDemo4.Msg
+    | MessageDemo5PageMsg Pages.MessageDemo5.Msg
 
 
 init : Location -> ( Model, Cmd Msg )
@@ -68,6 +71,9 @@ view model =
 
         MessageDemo4PageModel messageDemoModel ->
             Html.map MessageDemo4PageMsg (Pages.MessageDemo4.view messageDemoModel)
+
+        MessageDemo5PageModel messageDemoModel ->
+            Html.map MessageDemo5PageMsg (Pages.MessageDemo5.view messageDemoModel)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -108,6 +114,13 @@ update msg model =
             updatePage (Pages.MessageDemo4.update messageDemoMsg messageDemoModel) MessageDemo4PageModel MessageDemo4PageMsg model
 
         ( MessageDemo4PageMsg _, _ ) ->
+            -- should not happen
+            ( model, Cmd.none )
+
+        ( MessageDemo5PageMsg messageDemoMsg, MessageDemo5PageModel messageDemoModel ) ->
+            updatePage (Pages.MessageDemo5.update messageDemoMsg messageDemoModel) MessageDemo5PageModel MessageDemo5PageMsg model
+
+        ( MessageDemo5PageMsg _, _ ) ->
             -- should not happen
             ( model, Cmd.none )
 
@@ -177,3 +190,10 @@ setRoute maybeRoute model =
                     Pages.MessageDemo4.init title
             in
                 ( { model | actualPage = MessageDemo4PageModel messageDemoModel }, Cmd.map MessageDemo4PageMsg messageDemoCmd )
+
+        Just (Routes.RouteToMessageDemo5 title) ->
+            let
+                ( messageDemoModel, messageDemoCmd ) =
+                    Pages.MessageDemo5.init title
+            in
+                ( { model | actualPage = MessageDemo5PageModel messageDemoModel }, Cmd.map MessageDemo5PageMsg messageDemoCmd )

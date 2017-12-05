@@ -27,8 +27,10 @@ type alias MSRModel =
 
 type alias Model =
     { title : Title
-    , modelFor1 : MSRModel
-    , modelFor2 : MSRModel
+    , received1 : Message
+    , forSending1 : Message
+    , received2 : Message
+    , forSending2 : Message
     }
 
 
@@ -38,16 +40,20 @@ type MSRMsg
 
 
 type Msg
-    = MsgFor1 MSRMsg
-    | MsgFor2 MSRMsg
+    = SendMessage1
+    | UpdateMessage1 Message
+    | SendMessage2
+    | UpdateMessage2 Message
     | Back
 
 
 init : Title -> ( Model, Cmd Msg )
 init title =
     ( Model title
-        (MSRModel (Message.Message "") (Message.Message ""))
-        (MSRModel (Message.Message "") (Message.Message ""))
+        (Message.Message "")
+        (Message.Message "")
+        (Message.Message "")
+        (Message.Message "")
     , Cmd.none
     )
 
@@ -55,49 +61,27 @@ init title =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        MsgFor1 (UpdateMessage message) ->
-            updateForUpdate (\nm -> { model | modelFor1 = nm }) model.modelFor1 message
+        UpdateMessage1 message ->
+            ( { model | forSending1 = message }, Cmd.none )
 
-        MsgFor2 (UpdateMessage message) ->
-            updateForUpdate (\nm -> { model | modelFor2 = nm }) model.modelFor2 message
+        UpdateMessage2 message ->
+            ( { model | forSending2 = message }, Cmd.none )
 
-        MsgFor1 SendMessage ->
-            updateForSend (\nm -> { model | modelFor2 = nm }) model.modelFor2 model.modelFor1.forSending
+        SendMessage1 ->
+            ( { model | received2 = model.forSending1 }, Cmd.none )
 
-        MsgFor2 SendMessage ->
-            updateForSend (\nm -> { model | modelFor1 = nm }) model.modelFor1 model.modelFor2.forSending
+        SendMessage2 ->
+            ( { model | received1 = model.forSending2 }, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
-
-
-type alias SetterForUpdate =
-    MSRModel -> Model
-
-
-updateForUpdate : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
-updateForUpdate setter imodel message =
-    let
-        newIModel =
-            { imodel | forSending = message }
-    in
-        ( setter newIModel, Cmd.none )
-
-
-updateForSend : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
-updateForSend setter imodelother message =
-    let
-        newmodelother =
-            { imodelother | received = message }
-    in
-        ( setter newmodelother, Cmd.none )
 
 
 view : Model -> Html Msg
 view model =
     Html.div []
         [ Html.text <| Title.toString model.title
-        , MSR.view model.modelFor1.received (UpdateMessage >> MsgFor1) (SendMessage |> MsgFor1)
-        , MSR.view model.modelFor2.received (UpdateMessage >> MsgFor2) (SendMessage |> MsgFor2)
+        , MSR.view model.received1 UpdateMessage1 SendMessage1
+        , MSR.view model.received2 UpdateMessage2 SendMessage2
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]

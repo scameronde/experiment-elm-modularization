@@ -9909,6 +9909,7 @@ var _scameronde$experiment_elm_modularization$Routes$titleUrlParameterParser = A
 		return _elm_lang$core$Result$Ok(
 			_scameronde$experiment_elm_modularization$Domain_Title$fromString(_p0));
 	});
+var _scameronde$experiment_elm_modularization$Routes$demo5Path = 'demo5';
 var _scameronde$experiment_elm_modularization$Routes$demo4Path = 'demo4';
 var _scameronde$experiment_elm_modularization$Routes$demo3Path = 'demo3';
 var _scameronde$experiment_elm_modularization$Routes$demo2Path = 'demo2';
@@ -9949,10 +9950,20 @@ var _scameronde$experiment_elm_modularization$Routes$routeToString = function (p
 						_1: {ctor: '[]'}
 					}
 				};
-			default:
+			case 'RouteToMessageDemo4':
 				return {
 					ctor: '::',
 					_0: _scameronde$experiment_elm_modularization$Routes$demo4Path,
+					_1: {
+						ctor: '::',
+						_0: _scameronde$experiment_elm_modularization$Domain_Title$toString(_p1._0),
+						_1: {ctor: '[]'}
+					}
+				};
+			default:
+				return {
+					ctor: '::',
+					_0: _scameronde$experiment_elm_modularization$Routes$demo5Path,
 					_1: {
 						ctor: '::',
 						_0: _scameronde$experiment_elm_modularization$Domain_Title$toString(_p1._0),
@@ -9975,6 +9986,9 @@ var _scameronde$experiment_elm_modularization$Routes$modifyUrl = function (_p2) 
 		_scameronde$experiment_elm_modularization$Routes$routeToString(_p2));
 };
 var _scameronde$experiment_elm_modularization$Routes$homePath = '';
+var _scameronde$experiment_elm_modularization$Routes$RouteToMessageDemo5 = function (a) {
+	return {ctor: 'RouteToMessageDemo5', _0: a};
+};
 var _scameronde$experiment_elm_modularization$Routes$RouteToMessageDemo4 = function (a) {
 	return {ctor: 'RouteToMessageDemo4', _0: a};
 };
@@ -10031,7 +10045,17 @@ var _scameronde$experiment_elm_modularization$Routes$routeParser = _evancz$url_p
 								_evancz$url_parser$UrlParser_ops['</>'],
 								_evancz$url_parser$UrlParser$s(_scameronde$experiment_elm_modularization$Routes$demo4Path),
 								_scameronde$experiment_elm_modularization$Routes$titleUrlParameterParser)),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_evancz$url_parser$UrlParser$map,
+								_scameronde$experiment_elm_modularization$Routes$RouteToMessageDemo5,
+								A2(
+									_evancz$url_parser$UrlParser_ops['</>'],
+									_evancz$url_parser$UrlParser$s(_scameronde$experiment_elm_modularization$Routes$demo5Path),
+									_scameronde$experiment_elm_modularization$Routes$titleUrlParameterParser)),
+							_1: {ctor: '[]'}
+						}
 					}
 				}
 			}
@@ -10072,6 +10096,13 @@ var _scameronde$experiment_elm_modularization$Pages_Home$update = F2(
 					_1: _scameronde$experiment_elm_modularization$Routes$modifyUrl(
 						_scameronde$experiment_elm_modularization$Routes$RouteToMessageDemo4(model.title))
 				};
+			case 'GotoMessageDemo5':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _scameronde$experiment_elm_modularization$Routes$modifyUrl(
+						_scameronde$experiment_elm_modularization$Routes$RouteToMessageDemo5(model.title))
+				};
 			default:
 				return {
 					ctor: '_Tuple2',
@@ -10095,6 +10126,7 @@ var _scameronde$experiment_elm_modularization$Pages_Home$Model = function (a) {
 var _scameronde$experiment_elm_modularization$Pages_Home$UpdateTitle = function (a) {
 	return {ctor: 'UpdateTitle', _0: a};
 };
+var _scameronde$experiment_elm_modularization$Pages_Home$GotoMessageDemo5 = {ctor: 'GotoMessageDemo5'};
 var _scameronde$experiment_elm_modularization$Pages_Home$GotoMessageDemo4 = {ctor: 'GotoMessageDemo4'};
 var _scameronde$experiment_elm_modularization$Pages_Home$GotoMessageDemo3 = {ctor: 'GotoMessageDemo3'};
 var _scameronde$experiment_elm_modularization$Pages_Home$GotoMessageDemo2 = {ctor: 'GotoMessageDemo2'};
@@ -10176,7 +10208,22 @@ var _scameronde$experiment_elm_modularization$Pages_Home$view = function (model)
 										_0: _elm_lang$html$Html$text('GoTo Demo 4'),
 										_1: {ctor: '[]'}
 									}),
-								_1: {ctor: '[]'}
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_elm_lang$html$Html$button,
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_Home$GotoMessageDemo5),
+											_1: {ctor: '[]'}
+										},
+										{
+											ctor: '::',
+											_0: _elm_lang$html$Html$text('GoTo Demo 5'),
+											_1: {ctor: '[]'}
+										}),
+									_1: {ctor: '[]'}
+								}
 							}
 						}
 					}
@@ -10226,7 +10273,119 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnl
 				}
 			});
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForSend = F3(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
+			case 'UpdateMessage1':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{forSending1: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'UpdateMessage2':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{forSending2: _p0._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SendMessage1':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{received2: model.forSending1}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'SendMessage2':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{received1: model.forSending2}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _scameronde$experiment_elm_modularization$Routes$modifyUrl(_scameronde$experiment_elm_modularization$Routes$RouteToHome)
+				};
+		}
+	});
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$MSRModel = F2(
+	function (a, b) {
+		return {received: a, forSending: b};
+	});
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$Model = F5(
+	function (a, b, c, d, e) {
+		return {title: a, received1: b, forSending1: c, received2: d, forSending2: e};
+	});
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$init = function (title) {
+	return {
+		ctor: '_Tuple2',
+		_0: A5(
+			_scameronde$experiment_elm_modularization$Pages_MessageDemo1$Model,
+			title,
+			_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
+			_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
+			_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
+			_scameronde$experiment_elm_modularization$Domain_Message$Message('')),
+		_1: _elm_lang$core$Platform_Cmd$none
+	};
+};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage = function (a) {
+	return {ctor: 'UpdateMessage', _0: a};
+};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage = {ctor: 'SendMessage'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$Back = {ctor: 'Back'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage2 = function (a) {
+	return {ctor: 'UpdateMessage2', _0: a};
+};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage2 = {ctor: 'SendMessage2'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage1 = function (a) {
+	return {ctor: 'UpdateMessage1', _0: a};
+};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage1 = {ctor: 'SendMessage1'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text(
+				_scameronde$experiment_elm_modularization$Domain_Title$toString(model.title)),
+			_1: {
+				ctor: '::',
+				_0: A3(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view, model.received1, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage1, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage1),
+				_1: {
+					ctor: '::',
+					_0: A3(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view, model.received2, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage2, _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage2),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$button,
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo1$Back),
+								_1: {ctor: '[]'}
+							},
+							{
+								ctor: '::',
+								_0: _elm_lang$html$Html$text('Back'),
+								_1: {ctor: '[]'}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			}
+		});
+};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForSend = F3(
 	function (setter, imodelother, message) {
 		var newmodelother = _elm_lang$core$Native_Utils.update(
 			imodelother,
@@ -10237,7 +10396,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForSend =
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForUpdate = F3(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForUpdate = F3(
 	function (setter, imodel, message) {
 		var newIModel = _elm_lang$core$Native_Utils.update(
 			imodel,
@@ -10248,14 +10407,14 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForUpdate
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$update = F2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'MsgFor1':
 				if (_p0._0.ctor === 'UpdateMessage') {
 					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForUpdate,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForUpdate,
 						function (nm) {
 							return _elm_lang$core$Native_Utils.update(
 								model,
@@ -10265,7 +10424,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$update = F2(
 						_p0._0._0);
 				} else {
 					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForSend,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForSend,
 						function (nm) {
 							return _elm_lang$core$Native_Utils.update(
 								model,
@@ -10277,7 +10436,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$update = F2(
 			case 'MsgFor2':
 				if (_p0._0.ctor === 'UpdateMessage') {
 					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForUpdate,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForUpdate,
 						function (nm) {
 							return _elm_lang$core$Native_Utils.update(
 								model,
@@ -10287,7 +10446,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$update = F2(
 						_p0._0._0);
 				} else {
 					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo1$updateForSend,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForSend,
 						function (nm) {
 							return _elm_lang$core$Native_Utils.update(
 								model,
@@ -10304,43 +10463,43 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$update = F2(
 				};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$MSRModel = F2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MSRModel = F2(
 	function (a, b) {
 		return {received: a, forSending: b};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$Model = F3(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$Model = F3(
 	function (a, b, c) {
 		return {title: a, modelFor1: b, modelFor2: c};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$init = function (title) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$init = function (title) {
 	return {
 		ctor: '_Tuple2',
 		_0: A3(
-			_scameronde$experiment_elm_modularization$Pages_MessageDemo1$Model,
+			_scameronde$experiment_elm_modularization$Pages_MessageDemo2$Model,
 			title,
 			A2(
-				_scameronde$experiment_elm_modularization$Pages_MessageDemo1$MSRModel,
+				_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MSRModel,
 				_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
 				_scameronde$experiment_elm_modularization$Domain_Message$Message('')),
 			A2(
-				_scameronde$experiment_elm_modularization$Pages_MessageDemo1$MSRModel,
+				_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MSRModel,
 				_scameronde$experiment_elm_modularization$Domain_Message$Message(''),
 				_scameronde$experiment_elm_modularization$Domain_Message$Message(''))),
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$UpdateMessage = function (a) {
 	return {ctor: 'UpdateMessage', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage = {ctor: 'SendMessage'};
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$Back = {ctor: 'Back'};
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$MsgFor2 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$SendMessage = {ctor: 'SendMessage'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$Back = {ctor: 'Back'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2 = function (a) {
 	return {ctor: 'MsgFor2', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$MsgFor1 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1 = function (a) {
 	return {ctor: 'MsgFor1', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$view = function (model) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10354,27 +10513,27 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$view = function
 					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view,
 					model.modelFor1.received,
 					function (_p1) {
-						return _scameronde$experiment_elm_modularization$Pages_MessageDemo1$MsgFor1(
-							_scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage(_p1));
+						return _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1(
+							_scameronde$experiment_elm_modularization$Pages_MessageDemo2$UpdateMessage(_p1));
 					},
-					_scameronde$experiment_elm_modularization$Pages_MessageDemo1$MsgFor1(_scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage)),
+					_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$SendMessage)),
 				_1: {
 					ctor: '::',
 					_0: A3(
 						_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewOnly$view,
 						model.modelFor2.received,
 						function (_p2) {
-							return _scameronde$experiment_elm_modularization$Pages_MessageDemo1$MsgFor2(
-								_scameronde$experiment_elm_modularization$Pages_MessageDemo1$UpdateMessage(_p2));
+							return _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2(
+								_scameronde$experiment_elm_modularization$Pages_MessageDemo2$UpdateMessage(_p2));
 						},
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo1$MsgFor2(_scameronde$experiment_elm_modularization$Pages_MessageDemo1$SendMessage)),
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$SendMessage)),
 					_1: {
 						ctor: '::',
 						_0: A2(
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo1$Back),
+								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$Back),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -10456,7 +10615,7 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWit
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
@@ -10512,25 +10671,25 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 				};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$Model = F3(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$Model = F3(
 	function (a, b, c) {
 		return {title: a, modelFor1: b, modelFor2: c};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$init = function (title) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$init = function (title) {
 	return {
 		ctor: '_Tuple2',
-		_0: A3(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$Model, title, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$init, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$init),
+		_0: A3(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$Model, title, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$init, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$init),
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$Back = {ctor: 'Back'};
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$Back = {ctor: 'Back'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor2 = function (a) {
 	return {ctor: 'MsgFor2', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor1 = function (a) {
 	return {ctor: 'MsgFor1', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$view = function (model) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10542,13 +10701,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$view = function
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$map,
-					_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor1,
+					_scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor1,
 					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$view(model.modelFor1)),
 				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$map,
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$MsgFor2,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor2,
 						_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$view(model.modelFor2)),
 					_1: {
 						ctor: '::',
@@ -10556,7 +10715,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$view = function
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$Back),
+								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$Back),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -10648,7 +10807,7 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverCompone
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus = A2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$model2Focus = A2(
 	_evancz$focus$Focus$create,
 	function (_) {
 		return _.modelFor2;
@@ -10661,7 +10820,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus = A
 					modelFor2: f(r.modelFor2)
 				});
 		}));
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus = A2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$model1Focus = A2(
 	_evancz$focus$Focus$create,
 	function (_) {
 		return _.modelFor1;
@@ -10674,7 +10833,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus = A
 					modelFor1: f(r.modelFor1)
 				});
 		}));
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel = F4(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$updateModel = F4(
 	function (sender, receiver, imsg, model) {
 		var _p0 = A2(
 			_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$update,
@@ -10699,20 +10858,20 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel = F
 			newReceiver,
 			A3(_evancz$focus$Focus$set, sender, newSender, model));
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$update = F2(
 	function (msg, model) {
 		var _p2 = msg;
 		switch (_p2.ctor) {
 			case 'MsgFor1':
 				return {
 					ctor: '_Tuple2',
-					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus, _p2._0, model),
+					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$updateModel, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$model1Focus, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$model2Focus, _p2._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'MsgFor2':
 				return {
 					ctor: '_Tuple2',
-					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus, _p2._0, model),
+					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$updateModel, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$model2Focus, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$model1Focus, _p2._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
@@ -10723,25 +10882,25 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 				};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$Model = F3(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$Model = F3(
 	function (a, b, c) {
 		return {title: a, modelFor1: b, modelFor2: c};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$init = function (title) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$init = function (title) {
 	return {
 		ctor: '_Tuple2',
-		_0: A3(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$Model, title, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init),
+		_0: A3(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$Model, title, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init, _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$init),
 		_1: _elm_lang$core$Platform_Cmd$none
 	};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$Back = {ctor: 'Back'};
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor2 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$Back = {ctor: 'Back'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor2 = function (a) {
 	return {ctor: 'MsgFor2', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor1 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor1 = function (a) {
 	return {ctor: 'MsgFor1', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$view = function (model) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10753,13 +10912,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$view = function
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$map,
-					_scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor1,
+					_scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor1,
 					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$view(model.modelFor1)),
 				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$map,
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo3$MsgFor2,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor2,
 						_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$view(model.modelFor2)),
 					_1: {
 						ctor: '::',
@@ -10767,7 +10926,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$view = function
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$Back),
+								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$Back),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -10862,18 +11021,18 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverCompone
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$Model = F3(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$Model = F3(
 	function (a, b, c) {
 		return {title: a, modelFor1: b, modelFor2: c};
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$Back = {ctor: 'Back'};
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor2 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$Back = {ctor: 'Back'};
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor2 = function (a) {
 	return {ctor: 'MsgFor2', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor1 = function (a) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor1 = function (a) {
 	return {ctor: 'MsgFor1', _0: a};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$init = function (title) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$init = function (title) {
 	var _p0 = _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$init;
 	var model2 = _p0._0;
 	var cmd2 = _p0._1;
@@ -10882,20 +11041,20 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$init = function
 	var cmd1 = _p1._1;
 	return {
 		ctor: '_Tuple2',
-		_0: A3(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$Model, title, model1, model2),
+		_0: A3(_scameronde$experiment_elm_modularization$Pages_MessageDemo5$Model, title, model1, model2),
 		_1: _elm_lang$core$Platform_Cmd$batch(
 			{
 				ctor: '::',
-				_0: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor1, cmd1),
+				_0: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor1, cmd1),
 				_1: {
 					ctor: '::',
-					_0: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor2, cmd2),
+					_0: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor2, cmd2),
 					_1: {ctor: '[]'}
 				}
 			})
 	};
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$update = F2(
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$update = F2(
 	function (msg, model) {
 		var _p2 = msg;
 		switch (_p2.ctor) {
@@ -10919,7 +11078,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{modelFor1: newModel}),
-						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor1, newCmd)
+						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor1, newCmd)
 					};
 				}
 			case 'MsgFor2':
@@ -10942,7 +11101,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{modelFor2: newModel}),
-						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor2, newCmd)
+						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor2, newCmd)
 					};
 				}
 			default:
@@ -10953,7 +11112,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$update = F2(
 				};
 		}
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$view = function (model) {
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo5$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
@@ -10965,13 +11124,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$view = function
 				ctor: '::',
 				_0: A2(
 					_elm_lang$html$Html$map,
-					_scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor1,
+					_scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor1,
 					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$view(model.modelFor1)),
 				_1: {
 					ctor: '::',
 					_0: A2(
 						_elm_lang$html$Html$map,
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo4$MsgFor2,
+						_scameronde$experiment_elm_modularization$Pages_MessageDemo5$MsgFor2,
 						_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithMsgs$view(model.modelFor2)),
 					_1: {
 						ctor: '::',
@@ -10979,7 +11138,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo4$view = function
 							_elm_lang$html$Html$button,
 							{
 								ctor: '::',
-								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$Back),
+								_0: _elm_lang$html$Html_Events$onClick(_scameronde$experiment_elm_modularization$Pages_MessageDemo5$Back),
 								_1: {ctor: '[]'}
 							},
 							{
@@ -11014,6 +11173,9 @@ var _scameronde$experiment_elm_modularization$Main$Model = F2(
 		return {actualPage: a, session: b};
 	});
 var _scameronde$experiment_elm_modularization$Main$Session = {ctor: 'Session'};
+var _scameronde$experiment_elm_modularization$Main$MessageDemo5PageModel = function (a) {
+	return {ctor: 'MessageDemo5PageModel', _0: a};
+};
 var _scameronde$experiment_elm_modularization$Main$MessageDemo4PageModel = function (a) {
 	return {ctor: 'MessageDemo4PageModel', _0: a};
 };
@@ -11031,6 +11193,9 @@ var _scameronde$experiment_elm_modularization$Main$HomePageModel = function (a) 
 };
 var _scameronde$experiment_elm_modularization$Main$BlankPageModel = {ctor: 'BlankPageModel'};
 var _scameronde$experiment_elm_modularization$Main$initialModel = A2(_scameronde$experiment_elm_modularization$Main$Model, _scameronde$experiment_elm_modularization$Main$BlankPageModel, _scameronde$experiment_elm_modularization$Main$Session);
+var _scameronde$experiment_elm_modularization$Main$MessageDemo5PageMsg = function (a) {
+	return {ctor: 'MessageDemo5PageMsg', _0: a};
+};
 var _scameronde$experiment_elm_modularization$Main$MessageDemo4PageMsg = function (a) {
 	return {ctor: 'MessageDemo4PageMsg', _0: a};
 };
@@ -11078,11 +11243,16 @@ var _scameronde$experiment_elm_modularization$Main$view = function (model) {
 				_elm_lang$html$Html$map,
 				_scameronde$experiment_elm_modularization$Main$MessageDemo3PageMsg,
 				_scameronde$experiment_elm_modularization$Pages_MessageDemo3$view(_p2._0));
-		default:
+		case 'MessageDemo4PageModel':
 			return A2(
 				_elm_lang$html$Html$map,
 				_scameronde$experiment_elm_modularization$Main$MessageDemo4PageMsg,
 				_scameronde$experiment_elm_modularization$Pages_MessageDemo4$view(_p2._0));
+		default:
+			return A2(
+				_elm_lang$html$Html$map,
+				_scameronde$experiment_elm_modularization$Main$MessageDemo5PageMsg,
+				_scameronde$experiment_elm_modularization$Pages_MessageDemo5$view(_p2._0));
 	}
 };
 var _scameronde$experiment_elm_modularization$Main$setRoute = F2(
@@ -11144,7 +11314,7 @@ var _scameronde$experiment_elm_modularization$Main$setRoute = F2(
 							}),
 						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Main$MessageDemo3PageMsg, messageDemoCmd)
 					};
-				default:
+				case 'RouteToMessageDemo4':
 					var _p8 = _scameronde$experiment_elm_modularization$Pages_MessageDemo4$init(_p3._0._0);
 					var messageDemoModel = _p8._0;
 					var messageDemoCmd = _p8._1;
@@ -11157,20 +11327,33 @@ var _scameronde$experiment_elm_modularization$Main$setRoute = F2(
 							}),
 						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Main$MessageDemo4PageMsg, messageDemoCmd)
 					};
+				default:
+					var _p9 = _scameronde$experiment_elm_modularization$Pages_MessageDemo5$init(_p3._0._0);
+					var messageDemoModel = _p9._0;
+					var messageDemoCmd = _p9._1;
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								actualPage: _scameronde$experiment_elm_modularization$Main$MessageDemo5PageModel(messageDemoModel)
+							}),
+						_1: A2(_elm_lang$core$Platform_Cmd$map, _scameronde$experiment_elm_modularization$Main$MessageDemo5PageMsg, messageDemoCmd)
+					};
 			}
 		}
 	});
 var _scameronde$experiment_elm_modularization$Main$update = F2(
 	function (msg, model) {
-		var _p9 = {ctor: '_Tuple2', _0: msg, _1: model.actualPage};
-		switch (_p9._0.ctor) {
+		var _p10 = {ctor: '_Tuple2', _0: msg, _1: model.actualPage};
+		switch (_p10._0.ctor) {
 			case 'SetRoute':
-				return A2(_scameronde$experiment_elm_modularization$Main$setRoute, _p9._0._0, model);
+				return A2(_scameronde$experiment_elm_modularization$Main$setRoute, _p10._0._0, model);
 			case 'HomePageMsg':
-				if (_p9._1.ctor === 'HomePageModel') {
+				if (_p10._1.ctor === 'HomePageModel') {
 					return A4(
 						_scameronde$experiment_elm_modularization$Main$updatePage,
-						A2(_scameronde$experiment_elm_modularization$Pages_Home$update, _p9._0._0, _p9._1._0),
+						A2(_scameronde$experiment_elm_modularization$Pages_Home$update, _p10._0._0, _p10._1._0),
 						_scameronde$experiment_elm_modularization$Main$HomePageModel,
 						_scameronde$experiment_elm_modularization$Main$HomePageMsg,
 						model);
@@ -11178,10 +11361,10 @@ var _scameronde$experiment_elm_modularization$Main$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'MessageDemo1PageMsg':
-				if (_p9._1.ctor === 'MessageDemo1PageModel') {
+				if (_p10._1.ctor === 'MessageDemo1PageModel') {
 					return A4(
 						_scameronde$experiment_elm_modularization$Main$updatePage,
-						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo1$update, _p9._0._0, _p9._1._0),
+						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo1$update, _p10._0._0, _p10._1._0),
 						_scameronde$experiment_elm_modularization$Main$MessageDemo1PageModel,
 						_scameronde$experiment_elm_modularization$Main$MessageDemo1PageMsg,
 						model);
@@ -11189,10 +11372,10 @@ var _scameronde$experiment_elm_modularization$Main$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'MessageDemo2PageMsg':
-				if (_p9._1.ctor === 'MessageDemo2PageModel') {
+				if (_p10._1.ctor === 'MessageDemo2PageModel') {
 					return A4(
 						_scameronde$experiment_elm_modularization$Main$updatePage,
-						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$update, _p9._0._0, _p9._1._0),
+						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo2$update, _p10._0._0, _p10._1._0),
 						_scameronde$experiment_elm_modularization$Main$MessageDemo2PageModel,
 						_scameronde$experiment_elm_modularization$Main$MessageDemo2PageMsg,
 						model);
@@ -11200,23 +11383,34 @@ var _scameronde$experiment_elm_modularization$Main$update = F2(
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
 			case 'MessageDemo3PageMsg':
-				if (_p9._1.ctor === 'MessageDemo3PageModel') {
+				if (_p10._1.ctor === 'MessageDemo3PageModel') {
 					return A4(
 						_scameronde$experiment_elm_modularization$Main$updatePage,
-						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$update, _p9._0._0, _p9._1._0),
+						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$update, _p10._0._0, _p10._1._0),
 						_scameronde$experiment_elm_modularization$Main$MessageDemo3PageModel,
 						_scameronde$experiment_elm_modularization$Main$MessageDemo3PageMsg,
 						model);
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 				}
-			default:
-				if (_p9._1.ctor === 'MessageDemo4PageModel') {
+			case 'MessageDemo4PageMsg':
+				if (_p10._1.ctor === 'MessageDemo4PageModel') {
 					return A4(
 						_scameronde$experiment_elm_modularization$Main$updatePage,
-						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$update, _p9._0._0, _p9._1._0),
+						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo4$update, _p10._0._0, _p10._1._0),
 						_scameronde$experiment_elm_modularization$Main$MessageDemo4PageModel,
 						_scameronde$experiment_elm_modularization$Main$MessageDemo4PageMsg,
+						model);
+				} else {
+					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
+				}
+			default:
+				if (_p10._1.ctor === 'MessageDemo5PageModel') {
+					return A4(
+						_scameronde$experiment_elm_modularization$Main$updatePage,
+						A2(_scameronde$experiment_elm_modularization$Pages_MessageDemo5$update, _p10._0._0, _p10._1._0),
+						_scameronde$experiment_elm_modularization$Main$MessageDemo5PageModel,
+						_scameronde$experiment_elm_modularization$Main$MessageDemo5PageMsg,
 						model);
 				} else {
 					return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
@@ -11238,9 +11432,9 @@ var _scameronde$experiment_elm_modularization$Main$SetRoute = function (a) {
 };
 var _scameronde$experiment_elm_modularization$Main$main = A2(
 	_elm_lang$navigation$Navigation$program,
-	function (_p10) {
+	function (_p11) {
 		return _scameronde$experiment_elm_modularization$Main$SetRoute(
-			_scameronde$experiment_elm_modularization$Routes$fromLocation(_p10));
+			_scameronde$experiment_elm_modularization$Routes$fromLocation(_p11));
 	},
 	{init: _scameronde$experiment_elm_modularization$Main$init, view: _scameronde$experiment_elm_modularization$Main$view, update: _scameronde$experiment_elm_modularization$Main$update, subscriptions: _scameronde$experiment_elm_modularization$Main$subscriptions})();
 var Elm = {};
