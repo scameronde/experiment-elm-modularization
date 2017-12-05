@@ -265,4 +265,4 @@ There are different ways a page can be composed of smaller elements. I want to e
 - Variant 4: using a component with a return value (using update)
 - Variant 5: using a component with a return value passed by a message
 
-So far variant 4 is my favorit for anything more complex than a button of a textfield.
+So far variant 3 is my favorit for anything more complex than a button of a textfield.

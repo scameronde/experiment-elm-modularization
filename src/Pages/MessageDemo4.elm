@@ -42,10 +42,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MsgFor1 imsg ->
-            ( updateModel model1Focus model2Focus imsg model, Cmd.none )
+            ( updateModel modelFor1 modelFor2 imsg model, Cmd.none )
 
         MsgFor2 imsg ->
-            ( updateModel model2Focus model1Focus imsg model, Cmd.none )
+            ( updateModel modelFor2 modelFor1 imsg model, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
@@ -72,16 +72,6 @@ updateModel sender receiver imsg model =
         set sender newSender model |> set receiver newReceiver
 
 
-model1Focus : Focus { b | modelFor1 : a } a
-model1Focus =
-    Focus.create .modelFor1 (\f r -> { r | modelFor1 = f r.modelFor1 })
-
-
-model2Focus : Focus { b | modelFor2 : a } a
-model2Focus =
-    Focus.create .modelFor2 (\f r -> { r | modelFor2 = f r.modelFor2 })
-
-
 view : Model -> Html Msg
 view model =
     Html.div []
@@ -90,3 +80,17 @@ view model =
         , Html.map MsgFor2 <| MSR.view model.modelFor2
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]
+
+
+
+-- Foci
+
+
+modelFor1 : Focus { b | modelFor1 : a } a
+modelFor1 =
+    Focus.create .modelFor1 (\f r -> { r | modelFor1 = f r.modelFor1 })
+
+
+modelFor2 : Focus { b | modelFor2 : a } a
+modelFor2 =
+    Focus.create .modelFor2 (\f r -> { r | modelFor2 = f r.modelFor2 })
