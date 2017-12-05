@@ -63,7 +63,7 @@ view : Model -> Html Msg
 view model =
     Html.div []
         [ Html.text <| Title.toString model.title
-        , Html.map MsgFor1 (MSR.view model.modelFor1)
-        , Html.map MsgFor2 (MSR.view model.modelFor2)
+        , Html.map MsgFor1 <| MSR.view model.modelFor1
+        , Html.map MsgFor2 <| MSR.view model.modelFor2
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]

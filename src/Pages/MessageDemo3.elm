@@ -13,6 +13,7 @@ parent with the result of its update function.
 -}
 
 import Routes
+import Focus exposing (Focus, set, get)
 import Domain.Title as Title exposing (Title)
 import Views.MessageSenderReceiverComponentWithReturnValue as MSR
 import Html exposing (Html)
@@ -41,10 +42,10 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MsgFor1 imsg ->
-            ( updateWithMessageFor1 model imsg model.modelFor1 model.modelFor2, Cmd.none )
+            ( updateModel model1Focus model2Focus imsg model, Cmd.none )
 
         MsgFor2 imsg ->
-            ( updateWithMessageFor2 model imsg model.modelFor2 model.modelFor1, Cmd.none )
+            ( updateModel model2Focus model1Focus imsg model, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
@@ -54,38 +55,38 @@ type alias ModelSetter =
     Model -> MSR.Model -> MSR.Model -> Model
 
 
-updateWithMessage : ModelSetter -> Model -> MSR.Msg -> MSR.Model -> MSR.Model -> Model
-updateWithMessage setter model iMsgThis iModelThis iModelOther =
+updateModel : Focus Model MSR.Model -> Focus Model MSR.Model -> MSR.Msg -> Model -> Model
+updateModel sender receiver imsg model =
     let
-        ( maybeMessage, newModelThis ) =
-            MSR.update iMsgThis iModelThis
+        ( maybeMessage, newSender ) =
+            MSR.update imsg (get sender model)
 
-        newModelOther =
+        newReceiver =
             case maybeMessage of
                 Nothing ->
-                    iModelOther
+                    get receiver model
 
                 Just message ->
-                    MSR.updateReceived message iModelOther
+                    MSR.updateReceived message (get receiver model)
     in
-        setter model newModelThis newModelOther
+        set sender newSender model |> set receiver newReceiver
 
 
-updateWithMessageFor1 : Model -> MSR.Msg -> MSR.Model -> MSR.Model -> Model
-updateWithMessageFor1 =
-    updateWithMessage (\model this other -> { model | modelFor1 = this, modelFor2 = other })
+model1Focus : Focus { b | modelFor1 : a } a
+model1Focus =
+    Focus.create .modelFor1 (\f r -> { r | modelFor1 = f r.modelFor1 })
 
 
-updateWithMessageFor2 : Model -> MSR.Msg -> MSR.Model -> MSR.Model -> Model
-updateWithMessageFor2 =
-    updateWithMessage (\model this other -> { model | modelFor2 = this, modelFor1 = other })
+model2Focus : Focus { b | modelFor2 : a } a
+model2Focus =
+    Focus.create .modelFor2 (\f r -> { r | modelFor2 = f r.modelFor2 })
 
 
 view : Model -> Html Msg
 view model =
     Html.div []
         [ Html.text <| Title.toString model.title
-        , Html.map MsgFor1 (MSR.view model.modelFor1)
-        , Html.map MsgFor2 (MSR.view model.modelFor2)
+        , Html.map MsgFor1 <| MSR.view model.modelFor1
+        , Html.map MsgFor2 <| MSR.view model.modelFor2
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]

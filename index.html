@@ -9585,6 +9585,53 @@ var _elm_lang$navigation$Navigation$onEffects = F4(
 			stepState);
 	});
 _elm_lang$core$Native_Platform.effectManagers['Navigation'] = {pkg: 'elm-lang/navigation', init: _elm_lang$navigation$Navigation$init, onEffects: _elm_lang$navigation$Navigation$onEffects, onSelfMsg: _elm_lang$navigation$Navigation$onSelfMsg, tag: 'fx', cmdMap: _elm_lang$navigation$Navigation$cmdMap, subMap: _elm_lang$navigation$Navigation$subMap};
+var _evancz$focus$Focus$update = F3(
+	function (_p0, f, big) {
+		var _p1 = _p0;
+		return A2(_p1._0.update, f, big);
+	});
+var _evancz$focus$Focus$set = F3(
+	function (_p2, small, big) {
+		var _p3 = _p2;
+		return A2(
+			_p3._0.update,
+			_elm_lang$core$Basics$always(small),
+			big);
+	});
+var _evancz$focus$Focus$get = F2(
+	function (_p4, big) {
+		var _p5 = _p4;
+		return _p5._0.get(big);
+	});
+var _evancz$focus$Focus$Focus = function (a) {
+	return {ctor: 'Focus', _0: a};
+};
+var _evancz$focus$Focus$create = F2(
+	function (get, update) {
+		return _evancz$focus$Focus$Focus(
+			{get: get, update: update});
+	});
+var _evancz$focus$Focus_ops = _evancz$focus$Focus_ops || {};
+_evancz$focus$Focus_ops['=>'] = F2(
+	function (_p7, _p6) {
+		var _p8 = _p7;
+		var _p11 = _p8._0;
+		var _p9 = _p6;
+		var _p10 = _p9._0;
+		var update = F2(
+			function (f, big) {
+				return A2(
+					_p11.update,
+					_p10.update(f),
+					big);
+			});
+		var get = function (big) {
+			return _p10.get(
+				_p11.get(big));
+		};
+		return _evancz$focus$Focus$Focus(
+			{get: get, update: update});
+	});
 var _evancz$url_parser$UrlParser$toKeyValuePair = function (segment) {
 	var _p0 = A2(_elm_lang$core$String$split, '=', segment);
 	if (((_p0.ctor === '::') && (_p0._1.ctor === '::')) && (_p0._1._1.ctor === '[]')) {
@@ -10601,35 +10648,57 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverCompone
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessage = F5(
-	function (setter, model, iMsgThis, iModelThis, iModelOther) {
-		var _p0 = A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$update, iMsgThis, iModelThis);
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus = A2(
+	_evancz$focus$Focus$create,
+	function (_) {
+		return _.modelFor2;
+	},
+	F2(
+		function (f, r) {
+			return _elm_lang$core$Native_Utils.update(
+				r,
+				{
+					modelFor2: f(r.modelFor2)
+				});
+		}));
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus = A2(
+	_evancz$focus$Focus$create,
+	function (_) {
+		return _.modelFor1;
+	},
+	F2(
+		function (f, r) {
+			return _elm_lang$core$Native_Utils.update(
+				r,
+				{
+					modelFor1: f(r.modelFor1)
+				});
+		}));
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel = F4(
+	function (sender, receiver, imsg, model) {
+		var _p0 = A2(
+			_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$update,
+			imsg,
+			A2(_evancz$focus$Focus$get, sender, model));
 		var maybeMessage = _p0._0;
-		var newModelThis = _p0._1;
-		var newModelOther = function () {
+		var newSender = _p0._1;
+		var newReceiver = function () {
 			var _p1 = maybeMessage;
 			if (_p1.ctor === 'Nothing') {
-				return iModelOther;
+				return A2(_evancz$focus$Focus$get, receiver, model);
 			} else {
-				return A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$updateReceived, _p1._0, iModelOther);
+				return A2(
+					_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverComponentWithReturnValue$updateReceived,
+					_p1._0,
+					A2(_evancz$focus$Focus$get, receiver, model));
 			}
 		}();
-		return A3(setter, model, newModelThis, newModelOther);
+		return A3(
+			_evancz$focus$Focus$set,
+			receiver,
+			newReceiver,
+			A3(_evancz$focus$Focus$set, sender, newSender, model));
 	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessageFor1 = _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessage(
-	F3(
-		function (model, $this, other) {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{modelFor1: $this, modelFor2: other});
-		}));
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessageFor2 = _scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessage(
-	F3(
-		function (model, $this, other) {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{modelFor2: $this, modelFor1: other});
-		}));
 var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 	function (msg, model) {
 		var _p2 = msg;
@@ -10637,13 +10706,13 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 			case 'MsgFor1':
 				return {
 					ctor: '_Tuple2',
-					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessageFor1, model, _p2._0, model.modelFor1, model.modelFor2),
+					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus, _p2._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'MsgFor2':
 				return {
 					ctor: '_Tuple2',
-					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateWithMessageFor2, model, _p2._0, model.modelFor2, model.modelFor1),
+					_0: A4(_scameronde$experiment_elm_modularization$Pages_MessageDemo3$updateModel, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model2Focus, _scameronde$experiment_elm_modularization$Pages_MessageDemo3$model1Focus, _p2._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
