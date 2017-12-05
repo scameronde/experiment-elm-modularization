@@ -10385,75 +10385,105 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo1$view = function
 			}
 		});
 };
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForSend = F3(
-	function (setter, imodelother, message) {
-		var newmodelother = _elm_lang$core$Native_Utils.update(
-			imodelother,
-			{received: message});
-		return {
-			ctor: '_Tuple2',
-			_0: setter(newmodelother),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	});
-var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForUpdate = F3(
-	function (setter, imodel, message) {
-		var newIModel = _elm_lang$core$Native_Utils.update(
-			imodel,
-			{forSending: message});
-		return {
-			ctor: '_Tuple2',
-			_0: setter(newIModel),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	});
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$forSending = A2(
+	_evancz$focus$Focus$create,
+	function (_) {
+		return _.forSending;
+	},
+	F2(
+		function (f, r) {
+			return _elm_lang$core$Native_Utils.update(
+				r,
+				{
+					forSending: f(r.forSending)
+				});
+		}));
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$received = A2(
+	_evancz$focus$Focus$create,
+	function (_) {
+		return _.received;
+	},
+	F2(
+		function (f, r) {
+			return _elm_lang$core$Native_Utils.update(
+				r,
+				{
+					received: f(r.received)
+				});
+		}));
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$modelFor2 = A2(
+	_evancz$focus$Focus$create,
+	function (_) {
+		return _.modelFor2;
+	},
+	F2(
+		function (f, r) {
+			return _elm_lang$core$Native_Utils.update(
+				r,
+				{
+					modelFor2: f(r.modelFor2)
+				});
+		}));
+var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$modelFor1 = A2(
+	_evancz$focus$Focus$create,
+	function (_) {
+		return _.modelFor1;
+	},
+	F2(
+		function (f, r) {
+			return _elm_lang$core$Native_Utils.update(
+				r,
+				{
+					modelFor1: f(r.modelFor1)
+				});
+		}));
 var _scameronde$experiment_elm_modularization$Pages_MessageDemo2$update = F2(
 	function (msg, model) {
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'MsgFor1':
 				if (_p0._0.ctor === 'UpdateMessage') {
-					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForUpdate,
-						function (nm) {
-							return _elm_lang$core$Native_Utils.update(
-								model,
-								{modelFor1: nm});
-						},
-						model.modelFor1,
-						_p0._0._0);
+					return {
+						ctor: '_Tuple2',
+						_0: A3(
+							_evancz$focus$Focus$set,
+							A2(_evancz$focus$Focus_ops['=>'], _scameronde$experiment_elm_modularization$Pages_MessageDemo2$modelFor1, _scameronde$experiment_elm_modularization$Pages_MessageDemo2$forSending),
+							_p0._0._0,
+							model),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				} else {
-					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForSend,
-						function (nm) {
-							return _elm_lang$core$Native_Utils.update(
-								model,
-								{modelFor2: nm});
-						},
-						model.modelFor2,
-						model.modelFor1.forSending);
+					return {
+						ctor: '_Tuple2',
+						_0: A3(
+							_evancz$focus$Focus$set,
+							A2(_evancz$focus$Focus_ops['=>'], _scameronde$experiment_elm_modularization$Pages_MessageDemo2$modelFor2, _scameronde$experiment_elm_modularization$Pages_MessageDemo2$received),
+							model.modelFor1.forSending,
+							model),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				}
 			case 'MsgFor2':
 				if (_p0._0.ctor === 'UpdateMessage') {
-					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForUpdate,
-						function (nm) {
-							return _elm_lang$core$Native_Utils.update(
-								model,
-								{modelFor2: nm});
-						},
-						model.modelFor2,
-						_p0._0._0);
+					return {
+						ctor: '_Tuple2',
+						_0: A3(
+							_evancz$focus$Focus$set,
+							A2(_evancz$focus$Focus_ops['=>'], _scameronde$experiment_elm_modularization$Pages_MessageDemo2$modelFor2, _scameronde$experiment_elm_modularization$Pages_MessageDemo2$forSending),
+							_p0._0._0,
+							model),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				} else {
-					return A3(
-						_scameronde$experiment_elm_modularization$Pages_MessageDemo2$updateForSend,
-						function (nm) {
-							return _elm_lang$core$Native_Utils.update(
-								model,
-								{modelFor1: nm});
-						},
-						model.modelFor1,
-						model.modelFor2.forSending);
+					return {
+						ctor: '_Tuple2',
+						_0: A3(
+							_evancz$focus$Focus$set,
+							A2(_evancz$focus$Focus_ops['=>'], _scameronde$experiment_elm_modularization$Pages_MessageDemo2$modelFor1, _scameronde$experiment_elm_modularization$Pages_MessageDemo2$received),
+							model.modelFor2.forSending,
+							model),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
 				}
 			default:
 				return {

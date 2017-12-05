@@ -19,6 +19,7 @@ import Domain.Message as Message exposing (Message)
 import Views.MessageSenderReceiverViewOnly as MSR
 import Html exposing (Html)
 import Html.Events as Event
+import Focus exposing (Focus, set, get, (=>))
 
 
 type alias MSRModel =
@@ -58,41 +59,19 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         MsgFor1 (UpdateMessage message) ->
-            updateForUpdate (\nm -> { model | modelFor1 = nm }) model.modelFor1 message
+            ( set (modelFor1 => forSending) message model, Cmd.none )
 
         MsgFor2 (UpdateMessage message) ->
-            updateForUpdate (\nm -> { model | modelFor2 = nm }) model.modelFor2 message
+            ( set (modelFor2 => forSending) message model, Cmd.none )
 
         MsgFor1 SendMessage ->
-            updateForSend (\nm -> { model | modelFor2 = nm }) model.modelFor2 model.modelFor1.forSending
+            ( set (modelFor2 => received) model.modelFor1.forSending model, Cmd.none )
 
         MsgFor2 SendMessage ->
-            updateForSend (\nm -> { model | modelFor1 = nm }) model.modelFor1 model.modelFor2.forSending
+            ( set (modelFor1 => received) model.modelFor2.forSending model, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
-
-
-type alias SetterForUpdate =
-    MSRModel -> Model
-
-
-updateForUpdate : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
-updateForUpdate setter imodel message =
-    let
-        newIModel =
-            { imodel | forSending = message }
-    in
-        ( setter newIModel, Cmd.none )
-
-
-updateForSend : SetterForUpdate -> MSRModel -> Message -> ( Model, Cmd Msg )
-updateForSend setter imodelother message =
-    let
-        newmodelother =
-            { imodelother | received = message }
-    in
-        ( setter newmodelother, Cmd.none )
 
 
 view : Model -> Html Msg
@@ -103,3 +82,27 @@ view model =
         , MSR.view model.modelFor2.received (UpdateMessage >> MsgFor2) (SendMessage |> MsgFor2)
         , Html.button [ Event.onClick Back ] [ Html.text "Back" ]
         ]
+
+
+
+-- Foci
+
+
+modelFor1 : Focus { b | modelFor1 : a } a
+modelFor1 =
+    Focus.create .modelFor1 (\f r -> { r | modelFor1 = f r.modelFor1 })
+
+
+modelFor2 : Focus { b | modelFor2 : a } a
+modelFor2 =
+    Focus.create .modelFor2 (\f r -> { r | modelFor2 = f r.modelFor2 })
+
+
+received : Focus { b | received : a } a
+received =
+    Focus.create .received (\f r -> { r | received = f r.received })
+
+
+forSending : Focus { b | forSending : a } a
+forSending =
+    Focus.create .forSending (\f r -> { r | forSending = f r.forSending })
