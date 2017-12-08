@@ -266,3 +266,134 @@ There are different ways a page can be composed of smaller elements. I want to e
 - Variant 5: using a component with a return value passed by a message
 
 So far variant 3 is my favorit for anything more complex than a button of a textfield.
+
+My previous attempts to decompose a UI into components with the same interface (effectively
+Pages in Pages in Pages) lead to unessessary code and deep message hierarchies. The update functions
+got too complex. Another problem of this architecture of "independant components arranged into a deep hierarchy" is innefective data retrieval. Each component was responsible for the retrieval of its own data. This caused a lot of small requests to the server, sometimes querying the same data multiple times.
+
+So my new architecture is Pages with Views. The Page is responsible for handling all the data for the current use case. It can use Views, which provide a Model, Messages, view, init and update functions. But the init and update function only return the model, they can not issue Cmds. Values to the View are passed from the Page to the view using the init function or a specialized updateXXX function. Values from View to Page are passed using a message.
+
+### View
+
+The following example shows a typical view.
+
+```elm
+module Views.MessageSenderReceiverViewWithDefinition exposing (Model, Msg(SendMessage), init, view, update, updateReceived)
+
+import Domain.Message as Message exposing (Message)
+import Html exposing (Html)
+import Html.Events as Event
+
+
+{-| the internal model. no details should leak outside.
+-}
+type alias Model =
+    { received : Message
+    , forSending : Message
+    }
+
+
+{-| only message used to communicate values up to a page should be exported.
+-}
+type Msg
+    = -- used to pass value to Page
+      SendMessage Message
+      -- internally used
+    | UpdateMessage Message
+
+
+{-| must fully initialize the model
+-}
+init : Model
+init =
+    Model (Message.Message "") (Message.Message "")
+
+
+{-| must handle all internal messages and do nothing for messages used to pass data to the page
+-}
+update : Msg -> Model -> Model
+update msg model =
+    case msg of
+        UpdateMessage message ->
+            { model | forSending = message }
+
+        SendMessage message ->
+            model
+
+
+{-| one of many functions for accepting model changed from outside. remember: do not leak model information
+-}
+updateReceived : Model -> Message -> Model
+updateReceived model message =
+    { model | received = message }
+
+
+{-| a regular view
+-}
+view : Model -> Html Msg
+view model =
+    Html.div []
+        [ Html.text <| Message.toString model.received
+        , Html.input [ Event.onInput <| Message.Message >> UpdateMessage ] []
+        , Html.button [ Event.onClick <| SendMessage model.forSending ] [ Html.text "Send message" ]
+        ]
+```
+
+### Page
+
+The following example shows a typical page using two instances of the same view.
+
+```elm
+import Routes
+import Domain.Title as Title exposing (Title)
+import Views.MessageSenderReceiverViewWithDefinition as MSR
+import Html exposing (Html)
+import Html.Events as Event
+
+
+type alias Model =
+    { title : Title
+    , modelFor1 : MSR.Model
+    , modelFor2 : MSR.Model
+    }
+
+
+type Msg
+    = MsgFor1 MSR.Msg
+    | MsgFor2 MSR.Msg
+
+
+init : Title -> ( Model, Cmd Msg )
+init title =
+    ( Model title MSR.init MSR.init, Cmd.none )
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        -- handle message from view that is used to pass data
+        MsgFor1 (MSR.SendMessage message) ->
+            ( { model | modelFor2 = MSR.updateReceived model.modelFor2 message }, Cmd.none )
+
+        -- handle message from view that is used to pass data
+        MsgFor2 (MSR.SendMessage message) ->
+            ( { model | modelFor1 = MSR.updateReceived model.modelFor1 message }, Cmd.none )
+
+        -- handle all internal messages from view
+        MsgFor1 msgFor1 ->
+            ( { model | modelFor1 = MSR.update msgFor1 model.modelFor1 }, Cmd.none )
+
+        -- handle all internal messages from view
+        MsgFor2 msgFor2 ->
+            ( { model | modelFor2 = MSR.update msgFor2 model.modelFor2 }, Cmd.none )
+
+
+view : Model -> Html Msg
+view model =
+    Html.div []
+        [ Html.text <| Title.toString model.title
+        , Html.map MsgFor1 <| MSR.view model.modelFor1
+        , Html.map MsgFor2 <| MSR.view model.modelFor2
+        ]
+
+```

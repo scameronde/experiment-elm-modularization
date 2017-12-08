@@ -10583,11 +10583,16 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWit
 			model,
 			{received: message});
 	});
-var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$updateMessage = F2(
-	function (model, message) {
-		return _elm_lang$core$Native_Utils.update(
-			model,
-			{forSending: message});
+var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$update = F2(
+	function (msg, model) {
+		var _p0 = msg;
+		if (_p0.ctor === 'UpdateMessage') {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{forSending: _p0._0});
+		} else {
+			return model;
+		}
 	});
 var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$Model = F2(
 	function (a, b) {
@@ -10618,9 +10623,9 @@ var _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWit
 					{
 						ctor: '::',
 						_0: _elm_lang$html$Html_Events$onInput(
-							function (_p0) {
+							function (_p1) {
 								return _scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$UpdateMessage(
-									_scameronde$experiment_elm_modularization$Domain_Message$Message(_p0));
+									_scameronde$experiment_elm_modularization$Domain_Message$Message(_p1));
 							}),
 						_1: {ctor: '[]'}
 					},
@@ -10650,17 +10655,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 		var _p0 = msg;
 		switch (_p0.ctor) {
 			case 'MsgFor1':
-				if (_p0._0.ctor === 'UpdateMessage') {
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								modelFor1: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$updateMessage, model.modelFor1, _p0._0._0)
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				} else {
+				if (_p0._0.ctor === 'SendMessage') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
@@ -10670,15 +10665,25 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
-				}
-			case 'MsgFor2':
-				if (_p0._0.ctor === 'UpdateMessage') {
+				} else {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								modelFor2: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$updateMessage, model.modelFor2, _p0._0._0)
+								modelFor1: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$update, _p0._0, model.modelFor1)
+							}),
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				}
+			case 'MsgFor2':
+				if (_p0._0.ctor === 'SendMessage') {
+					return {
+						ctor: '_Tuple2',
+						_0: _elm_lang$core$Native_Utils.update(
+							model,
+							{
+								modelFor1: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$updateReceived, model.modelFor1, _p0._0._0)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -10688,7 +10693,7 @@ var _scameronde$experiment_elm_modularization$Pages_MessageDemo3$update = F2(
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								modelFor1: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$updateReceived, model.modelFor1, _p0._0._0)
+								modelFor2: A2(_scameronde$experiment_elm_modularization$Views_MessageSenderReceiverViewWithDefinition$update, _p0._0, model.modelFor2)
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};

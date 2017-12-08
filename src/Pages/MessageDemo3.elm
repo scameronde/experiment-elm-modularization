@@ -40,17 +40,21 @@ init title =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        MsgFor1 (MSR.UpdateMessage message) ->
-            ( { model | modelFor1 = MSR.updateMessage model.modelFor1 message }, Cmd.none )
-
-        MsgFor2 (MSR.UpdateMessage message) ->
-            ( { model | modelFor2 = MSR.updateMessage model.modelFor2 message }, Cmd.none )
-
+        -- handle message from view that is used to pass data
         MsgFor1 (MSR.SendMessage message) ->
             ( { model | modelFor2 = MSR.updateReceived model.modelFor2 message }, Cmd.none )
 
+        -- handle message from view that is used to pass data
         MsgFor2 (MSR.SendMessage message) ->
             ( { model | modelFor1 = MSR.updateReceived model.modelFor1 message }, Cmd.none )
+
+        -- handle all internal messages from view
+        MsgFor1 msgFor1 ->
+            ( { model | modelFor1 = MSR.update msgFor1 model.modelFor1 }, Cmd.none )
+
+        -- handle all internal messages from view
+        MsgFor2 msgFor2 ->
+            ( { model | modelFor2 = MSR.update msgFor2 model.modelFor2 }, Cmd.none )
 
         Back ->
             ( model, Routes.modifyUrl (Routes.RouteToHome) )
